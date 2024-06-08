@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|solutionrelative:variable03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|solutionrelative:variable02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\example01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|solutionrelative:example01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|solutionrelative:variable01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\comment01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{38E02572-EB6B-4412-82FB-8022BD2CCB1A}|02. Comment.vcxproj|solutionrelative:comment01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "variable03.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable03.c",
+              "RelativeDocumentMoniker": "variable03.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable03.c",
+              "RelativeToolTip": "variable03.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T12:08:14.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "variable02.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable02.c",
+              "RelativeDocumentMoniker": "variable02.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable02.c",
+              "RelativeToolTip": "variable02.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T12:00:28.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "example01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\example01.c",
+              "RelativeDocumentMoniker": "example01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\example01.c",
+              "RelativeToolTip": "example01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T11:35:26.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "variable01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable01.c",
+              "RelativeDocumentMoniker": "variable01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\variable01.c",
+              "RelativeToolTip": "variable01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T11:33:27.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "comment01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\comment01.c",
+              "RelativeDocumentMoniker": "comment01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\02. Comment\\comment01.c",
+              "RelativeToolTip": "comment01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T11:33:05.367Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F9157292-1D6F-4B96-9348-7F10EF5A0D54}|04. typeconversion.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\if02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F9157292-1D6F-4B96-9348-7F10EF5A0D54}|04. typeconversion.vcxproj|solutionrelative:if02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9157292-1D6F-4B96-9348-7F10EF5A0D54}|04. typeconversion.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\typeconv01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F9157292-1D6F-4B96-9348-7F10EF5A0D54}|04. typeconversion.vcxproj|solutionrelative:typeconv01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9157292-1D6F-4B96-9348-7F10EF5A0D54}|04. typeconversion.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\if01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F9157292-1D6F-4B96-9348-7F10EF5A0D54}|04. typeconversion.vcxproj|solutionrelative:if01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "if02.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\if02.c",
+              "RelativeDocumentMoniker": "if02.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\if02.c",
+              "RelativeToolTip": "if02.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T13:46:49.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "if01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\if01.c",
+              "RelativeDocumentMoniker": "if01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\if01.c",
+              "RelativeToolTip": "if01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T13:41:35.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "typeconv01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\typeconv01.c",
+              "RelativeDocumentMoniker": "typeconv01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\04. typeconversion\\typeconv01.c",
+              "RelativeToolTip": "typeconv01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T13:16:26.53Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
