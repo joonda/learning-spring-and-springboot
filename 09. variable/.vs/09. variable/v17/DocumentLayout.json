@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable05.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|solutionrelative:variable05.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable04.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|solutionrelative:variable04.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|solutionrelative:variable03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|solutionrelative:variable02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{34CDA8B6-BFD4-4E8F-BE6F-DD05A5FE47BA}|09. variable.vcxproj|solutionrelative:variable01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "variable05.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable05.c",
+              "RelativeDocumentMoniker": "variable05.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable05.c",
+              "RelativeToolTip": "variable05.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T17:30:49.808Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "variable04.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable04.c",
+              "RelativeDocumentMoniker": "variable04.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable04.c",
+              "RelativeToolTip": "variable04.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T17:29:42.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "variable03.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable03.c",
+              "RelativeDocumentMoniker": "variable03.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable03.c",
+              "RelativeToolTip": "variable03.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T17:26:30.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "variable02.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable02.c",
+              "RelativeDocumentMoniker": "variable02.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable02.c",
+              "RelativeToolTip": "variable02.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T17:22:14.28Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "variable01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable01.c",
+              "RelativeDocumentMoniker": "variable01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\09. variable\\variable01.c",
+              "RelativeToolTip": "variable01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-08T17:17:57.537Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
