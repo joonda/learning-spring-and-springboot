@@ -30,5 +30,17 @@
     <ClCompile Include="example05.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="example06.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="example07.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="example08.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="example09.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

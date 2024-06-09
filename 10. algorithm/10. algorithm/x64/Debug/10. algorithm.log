@@ -1,3 +1,2 @@
-﻿  example05.c
-C:\Users\USER\OneDrive\바탕 화면\study_c\10. algorithm\example05.c(50,4): warning C4013: 'exit'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+﻿  example09.c
   10. algorithm.vcxproj -> C:\Users\USER\OneDrive\바탕 화면\study_c\10. algorithm\x64\Debug\10. algorithm.exe
