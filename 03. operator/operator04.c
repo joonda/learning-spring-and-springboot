@@ -3,11 +3,11 @@
 int main(void)
 {
 	int x, y;
-	printf("Ã¹ ¹øÂ° ¼ö : ");
+	printf("ì²« ë²ˆì§¸ ìˆ˜ : ");
 	scanf_s("%d", &x);
-	printf("µÎ ¹øÂ° ¼ö : ");
+	printf("ë‘ ë²ˆì§¸ ìˆ˜ : ");
 	scanf_s("%d", &y);
 
-	printf("Å« ¼ö : %d \n", (x > y) ? x : y);
-	printf("ÀÛÀº ¼ö : %d \n", (x < y) ? x : y);
+	printf("í° ìˆ˜ : %d \n", (x > y) ? x : y);
+	printf("ì‘ì€ ìˆ˜ : %d \n", (x < y) ? x : y);
 }

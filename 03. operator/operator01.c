@@ -7,5 +7,5 @@ int main(void) {
 	y *= 2;
 	z %= 10 + 20;
 
-	printf("x = %d, y = %d, z = %d", x, y, z);
+	printf("x = %d, y = %d, z = %d \n", x, y, z);
 }

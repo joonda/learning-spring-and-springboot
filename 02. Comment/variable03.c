@@ -1,16 +1,16 @@
 #include <stdio.h>
-#define TAX_RATE 0.2 // ±âÈ£ »ó¼ö
+#define TAX_RATE 0.2 // ê¸°í˜¸ ìƒìˆ˜
 
 int main(void)
 {
-	const int MONTHS = 12; // ±âÈ£ »ó¼ö
+	const int MONTHS = 12; // ê¸°í˜¸ ìƒìˆ˜
 	int m_salary, y_salary;
 
 	printf("Input your salary : ");
 	scanf_s("%d", &m_salary);
 	y_salary = MONTHS * m_salary;
-	printf("¿¬ºÀÀº %d ÀÔ´Ï´Ù.", y_salary);
-	printf("¼¼±İÀº %f ÀÔ´Ï´Ù.", y_salary * TAX_RATE);
+	printf("ì—°ë´‰ì€ %d ì…ë‹ˆë‹¤.", y_salary);
+	printf("ì„¸ê¸ˆì€ %f ì…ë‹ˆë‹¤. \n", y_salary * TAX_RATE);
 
 	return 0;
 }

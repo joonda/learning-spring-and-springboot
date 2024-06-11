@@ -4,13 +4,13 @@ int main(void)
 {
 	int x;
 
-	printf("º¯¼ö xÀÇ Å©±â : %d byte\n", sizeof(x));
-	printf("charÇüÀÇ Å©±â : %d byte\n", sizeof(char));
-	printf("intÇüÀÇ Å©±â : % d byte\n", sizeof(int));
-	printf("shortÇüÀÇ Å©±â : %d byte\n", sizeof(short));
-	printf("longÇüÀÇ Å©±â : % d byte\n", sizeof(long));
-	printf("floatÇüÀÇ Å©±â : %d byte\n", sizeof(float));
-	printf("doubleÇüÀÇ Å©±â : %d byte\n", sizeof(double));
+	printf("ë³€ìˆ˜ xì˜ í¬ê¸°: %d byte\n", sizeof(x));
+	printf("charí˜•ì˜ í¬ê¸°: %d byte\n", sizeof(char));
+	printf("intí˜•ì˜ í¬ê¸°: %d byte\n", sizeof(int));
+	printf("shortí˜•ì˜ í¬ê¸° : %d byte\n", sizeof(short));
+	printf("longí˜•ì˜ í¬ê¸° : %d byte\n", sizeof(long));
+	printf("floatí˜•ì˜ í¬ê¸° : %d byte\n", sizeof(float));
+	printf("doubleí˜•ì˜ í¬ê¸° : %d byte\n", sizeof(double));
 
 	return 0;
 }
