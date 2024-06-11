@@ -13,6 +13,6 @@ int main(void) {
 		i++;
 	}
 
-	printf("1ºÎÅÍ %d±îÁöÀÇ ÇÕÀº %dÀÔ´Ï´Ù \n", n, sum);
+	printf("1ë¶€í„° %dê¹Œì§€ì˜ í•©ì€ %dì…ë‹ˆë‹¤ \n", n, sum);
 	return 0;
 }

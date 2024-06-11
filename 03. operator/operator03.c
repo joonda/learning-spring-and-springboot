@@ -4,10 +4,12 @@ int main(void)
 {
 	int x, y;
 
-	printf("µÎ °³ÀÇ Á¤¼ö¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ë‘ ê°œì˜ ì •ìˆ˜ë¥¼ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf_s("%d, %d", &x, &y);
 
-	printf("%d && %dÀÇ °á°ú °ª : %d \n", x, y, x && y); // and
-	printf("%d || %dÀÇ °á°ú °ª : %d \n", x, y, x || y); // or
-	printf("%!%dÀÇ °á°ú °ª : %d \n", x, !x); // not
+	printf("%d && %dì˜ ê²°ê³¼ ê°’ : %d \n", x, y, x && y); // and
+	printf("%d || %dì˜ ê²°ê³¼ ê°’ : %d \n", x, y, x || y); // or
+	printf("!%dì˜ ê²°ê³¼ ê°’ : %d \n", x, !x); // not
+
+	return 0;
 }

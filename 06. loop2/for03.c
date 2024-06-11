@@ -3,13 +3,13 @@
 int main(void) {
 	int i, n;
 	int factorial = 1;
-	printf("Á¤¼ö¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì •ìˆ˜ë¥¼ ìž…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf_s("%d", &n);
 	for (i = 1; i <= n; i++) {
 		factorial *= i;
 	}
 
-	printf("%d!Àº %dÀÔ´Ï´Ù.", n, factorial);
+	printf("%d!ì€ %dìž…ë‹ˆë‹¤.", n, factorial);
 
 	return 0;
 }

@@ -1,4 +1,4 @@
-// ¼¼±Õ ¹è¾ç ÈÄ ¼ıÀÚ ±¸ÇÏ±â
+// ì„¸ê·  ë°°ì–‘ í›„, ìˆ«ì êµ¬í•˜ê¸°
 
 #include <stdio.h>
 
@@ -11,7 +11,7 @@ int main(void) {
 		hours++;
 	}
 
-	printf("7½Ã°£ ÈÄÀÇ ¼¼±Õ ¼ö : %d \n", bacteria);
+	printf("7ì‹œê°„ í›„ì˜ ì„¸ê·  ìˆ˜ : %d \n", bacteria);
 
 	return 0;
 }

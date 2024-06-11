@@ -4,7 +4,7 @@ int main(void) {
 	int x = 10, y = 10;
 
 	printf("x = %d \n", x);
-	printf("++x = %d \n", ++x); // 먼저 증가한 후, 증가된 값이 수식에 사용
+	printf("++x = %d \n", ++x); // 먼저 증가 후 수식에 사용
 	printf("x = %d \n", x);
 
 	printf("y = %d \n", y);

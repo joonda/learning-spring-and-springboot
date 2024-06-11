@@ -3,16 +3,16 @@
 int main(void) {
 	int usranswer;
 
-	printf("ÄÄÇ»ÅÍ°¡ »ı°¢ÇÑ ¼ıÀÚ¸¦ ¸ÂÃç º¸¼¼¿ä! : ");
+	printf("ì»´í“¨í„°ê°€ ìƒê°í•œ ìˆ«ìë¥¼ ë§ì¶°ë³´ì„¸ìš” ! : ");
 
 	for (;;) {
 		scanf_s("%d", &usranswer);
 		if (usranswer == 3) {
-			printf("¸ÂÃß¼Ì±º¿ä ! \n");
+			printf("ë§ì¶”ì…¨êµ°ìš” ! \n");
 			break;
 		}
 		else {
-			printf("Æ²·È¾î¿ä ! \n");
+			printf("í‹€ë ¸ì–´ìš” ! \n");
 		}
 	}
 	

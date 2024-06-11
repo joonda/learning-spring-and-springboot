@@ -1,4 +1,4 @@
-/*º¹¸® ÀÌÀÚ °è»ê ÇÁ·Î±×·¥*/
+/*ë³µë¦¬ ì´ì ê³„ì‚° í”„ë¡œê·¸ë¨*/
 
 #include <stdio.h>
 
@@ -8,13 +8,15 @@ int main(void) {
 	double total = seed;
 	int years;
 
-	printf("³â ¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+	printf("ë…„ ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
 	scanf_s("%d", &years);
-	printf("ÀÌÀÚÀ²À» ÀÔ·ÂÇÏ¼¼¿ä (ex > 0.05) : ");
+	printf("ì´ììœ¨ì„ ì…ë ¥í•˜ì„¸ìš” (ex > 0.05) : ");
 	scanf_s("%f", &rate);
 
 	for (int i = 1; i <= years; i++) {
 		total = total * (1 + rate);
-		printf("%d³â > %.0f¿ø \n", i, total);
+		printf("%dë…„ > %.0fì› \n", i, total);
 	}
+	
+	return 0;
 }

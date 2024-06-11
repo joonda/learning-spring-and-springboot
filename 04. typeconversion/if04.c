@@ -3,22 +3,22 @@
 int main(void) {
 	double math, science, english, programming;
 	
-	printf("4°¡Áö °ú¸ñÀÇ Á¡¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä. : ");
+	printf("4ê°€ì§€ ê³¼ëª©ì˜ ì ìˆ˜ë¥¼ ìž…ë ¥í•˜ì„¸ìš”. : ");
 	scanf_s("%lf, %lf, %lf, %lf", &math, &science, &english, &programming);
 	
 	double avg = (math + science + english + programming) / 4;
-
+	printf("ì ìˆ˜ëŠ” %lfì ! \n", avg);
 	if (avg >= 90) {
-		printf("´ç½ÅÀº ¿ìµî»ýÀÔ´Ï´Ù.");
+		printf("ë‹¹ì‹ ì€ ìš°ë“±ìƒìž…ë‹ˆë‹¤. \n");
 	}
 	else if (avg >= 30 && avg < 90) {
-		printf("Á¶±Ý¸¸ ³ë·ÂÇÏ¼¼¿ä!");
+		printf("ì¡°ê¸ˆë§Œ ë…¸ë ¥í•˜ì„¸ìš”! \n");
 	}
 	else if (avg == 0) {
-		printf("°øºÎ¸¦ ¹ß·ÎÇÕ´Ï±î ?");
+		printf("ê³µë¶€ë¥¼ ë°œë¡œí•©ë‹ˆê¹Œ ? \n");
 	}
 	else {
-		printf("´õ ¿­½ÉÈ÷ ÇÏ¼¼¿ä!");
+		printf("ë” ì—´ì‹¬ížˆ í•˜ì„¸ìš”! \n");
 	}
 
 	return 0;

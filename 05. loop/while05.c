@@ -12,7 +12,7 @@ int main(void) {
 		i++;
 	}
 
-	printf("ÇÕ°è´Â %d ÀÔ´Ï´Ù. \n", sum);
+	printf("í•©ê³„ëŠ” %d ìž…ë‹ˆë‹¤. \n", sum);
 
 	return 0;
 }
