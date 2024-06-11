@@ -10,9 +10,9 @@ struct student {
 int main(void) {
 	// 구조체를 배열 형태로 선언 3차원 배열 (3*3 형태)
 	struct student students[] = {
-		{1001, "Andrew", 4.3},
-		{1002, "Watson", 4.2},
-		{1003, "Charlie", 4.1}
+		{1001, "Smith", 4.32},
+		{1002, "Lawrence", 4.21},
+		{1003, "Vanessa", 3.98}
 	};
 
 	// 구조체 배열의 사이즈를 확인

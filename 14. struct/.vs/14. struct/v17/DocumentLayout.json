@@ -3,8 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:assignment02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:assignment03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\enum01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:enum01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct07.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:struct07.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer06.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:pointer06.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer05.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:pointer05.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:struct03.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct05.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:struct05.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct06.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:struct06.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct04.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:struct04.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -17,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:pointer01.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|solutionrelative:assignment02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1D317351-64AC-48FC-A467-11C5143746B0}|14. struct.vcxproj|C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct02.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -38,24 +70,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "pointer04.c",
-              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer04.c",
-              "RelativeDocumentMoniker": "pointer04.c",
-              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer04.c",
-              "RelativeToolTip": "pointer04.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAHAAAA",
+              "Title": "enum01.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\enum01.c",
+              "RelativeDocumentMoniker": "enum01.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\enum01.c",
+              "RelativeToolTip": "enum01.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-09T12:34:10.57Z",
+              "WhenOpened": "2024-06-11T11:37:00.186Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
+              "Title": "pointer05.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer05.c",
+              "RelativeDocumentMoniker": "pointer05.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer05.c",
+              "RelativeToolTip": "pointer05.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T10:56:46.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "struct06.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct06.c",
+              "RelativeDocumentMoniker": "struct06.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct06.c",
+              "RelativeToolTip": "struct06.c",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T10:37:57.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "struct05.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct05.c",
+              "RelativeDocumentMoniker": "struct05.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct05.c",
+              "RelativeToolTip": "struct05.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T10:28:00.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "assignment03.c",
               "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment03.c",
               "RelativeDocumentMoniker": "assignment03.c",
@@ -68,7 +139,83 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "assignment02.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment02.c",
+              "RelativeDocumentMoniker": "assignment02.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment02.c",
+              "RelativeToolTip": "assignment02.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-09T11:43:29.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "pointer06.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer06.c",
+              "RelativeDocumentMoniker": "pointer06.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer06.c",
+              "RelativeToolTip": "pointer06.c",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABsAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T11:05:21.147Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "struct07.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct07.c",
+              "RelativeDocumentMoniker": "struct07.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct07.c",
+              "RelativeToolTip": "struct07.c",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T11:16:26.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "pointer04.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer04.c",
+              "RelativeDocumentMoniker": "pointer04.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer04.c",
+              "RelativeToolTip": "pointer04.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-09T12:34:10.57Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "struct03.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct03.c",
+              "RelativeDocumentMoniker": "struct03.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct03.c",
+              "RelativeToolTip": "struct03.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T10:05:09.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "struct04.c",
+              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct04.c",
+              "RelativeDocumentMoniker": "struct04.c",
+              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct04.c",
+              "RelativeToolTip": "struct04.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-11T10:19:45.722Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "pointer02.c",
               "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer02.c",
               "RelativeDocumentMoniker": "pointer02.c",
@@ -76,12 +223,11 @@
               "RelativeToolTip": "pointer02.c",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-09T12:15:56.121Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-09T12:15:56.121Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "pointer01.c",
               "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\pointer01.c",
               "RelativeDocumentMoniker": "pointer01.c",
@@ -89,12 +235,11 @@
               "RelativeToolTip": "pointer01.c",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-09T12:05:25.788Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-09T12:05:25.788Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 14,
               "Title": "assignment01.c",
               "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment01.c",
               "RelativeDocumentMoniker": "assignment01.c",
@@ -102,25 +247,11 @@
               "RelativeToolTip": "assignment01.c",
               "ViewState": "AQIAAAAAAAAAAAAAAADwvwAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-09T11:43:41.839Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-09T11:43:41.839Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "assignment02.c",
-              "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment02.c",
-              "RelativeDocumentMoniker": "assignment02.c",
-              "ToolTip": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\assignment02.c",
-              "RelativeToolTip": "assignment02.c",
-              "ViewState": "AQIAAAQAAAAAAAAAAADwvxwAAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-09T11:43:29.686Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 13,
               "Title": "struct02.c",
               "DocumentMoniker": "C:\\Users\\USER\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\study_c\\14. struct\\struct02.c",
               "RelativeDocumentMoniker": "struct02.c",
@@ -128,8 +259,7 @@
               "RelativeToolTip": "struct02.c",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-09T10:58:30.389Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-09T10:58:30.389Z"
             }
           ]
         }
