@@ -1,11 +1,10 @@
-/* ¹è¿­ ¼±¾ğ */
+/* ë°°ì—´ ê¸°ì´ˆ */
 #include <stdio.h>
 
 int main() {
-	// ¹è¿­ Çü, ¹è¿­ ÀÌ¸§, ¿ø¼Ò °³¼ö
 	// int arr[10]
 	int arr[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-	printf("Array 3 ¹øÂ° ¿ø¼Ò : %d \n", arr[2]);
+	printf("Array 3ë²ˆì§¸ ì›ì†Œ : %d \n", arr[2]);
 	return 0;
 }

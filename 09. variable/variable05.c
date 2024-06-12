@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-/* staticÀº Á¤Àû Áö¿ª º¯¼ö·Î ÁöÁ¤ÇÒ ¼ö ÀÖ´Ù. 
-ÀÌ´Â ÇÁ·Î±×·¥ ½ÇÇà ½Ã°£ µ¿¾È Áö¼ÓµÇ°Ô ¸¸µê. 
-ÇÔ¼ö È£Ãâ »çÀÌ¿¡ µ¥ÀÌÅÍ¸¦ À¯ÁöÇØ¾ßÇÒ ¶§ »ç¿ë */
+/* staticì€ ì •ì  ì§€ì—­ ë³€ìˆ˜ë¡œ ì§€ì •í•  ìˆ˜ ìžˆë‹¤. 
+ì´ëŠ” í”„ë¡œê·¸ëž¨ ì‹¤í–‰ ì‹œê°„ ë™ì•ˆ ì§€ì†ë˜ê²Œ ë§Œë“ ë‹¤. 
+í•¨ìˆ˜ í˜¸ì¶œ ì‚¬ì´ì— ë°ì´í„°ë¥¼ ìœ¶ì§€í•´ì•¼í•  ë•Œ ì‚¬ìš© */
 
 void sub() {
 	static int scount = 0;

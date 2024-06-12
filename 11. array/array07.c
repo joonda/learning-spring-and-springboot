@@ -7,6 +7,9 @@ int main(void) {
 	size = sizeof(scores) / sizeof(scores[0]);
 
 	for (i = 0; i < size; i++) {
-		printf("%d", scores[i]);
+		printf("%d ", scores[i]);
 	}
+	printf("\n");
+
+	return 0;
 }

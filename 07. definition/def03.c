@@ -11,14 +11,14 @@ int max(int x, int y) {
 
 int main(void) {
 	int x, y;
-	printf("Á¤¼ö¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì •ìˆ˜ë¥¼ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf_s("%d", &x);
 
-	printf("Á¤¼ö¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì •ìˆ˜ë¥¼ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf_s("%d", &y);
 
 	int max_num = max(x, y);
 	
-	printf("ÃÖ´ë °ª > %d", max_num);
+	printf("ìµœëŒ“ê°’ì€ > %d", max_num);
 	return 0;
 }

@@ -1,11 +1,11 @@
-/* ¿Âµµ º¯È¯±â */
+/* ì˜¨ë„ë³€í™˜ í”„ë¡œê·¸ë¨ */
 #include <stdio.h>
 
 void printOptions()
 {
-	printf(" 'c' ¼·¾¾ ¿Âµµ¿¡¼­ È­¾¾ ¿Âµµ·Î º¯È¯\n");
-	printf(" 'f' È­¾¾ ¿Âµµ¿¡¼­ ¼·¾¾ ¿Âµµ·Î º¯È¯\n");
-	printf(" 'q' Á¾·á\n");
+	printf(" 'c' ì„­ì”¨ì˜¨ë„ì—ì„œ í™”ì”¨ì˜¨ë„ë¡œ ë³€í™˜\n");
+	printf(" 'f' í™”ì”¨ì˜¨ë„ì—ì„œ ì„­ì”¨ì˜¨ë„ë¡œ ë³€í™˜\n");
+	printf(" 'q' ì¢…ë£Œ\n");
 }
 
 double c2f(double c_temp) {
@@ -21,7 +21,7 @@ int main(void) {
 	double temp;
 	while (1) {
 		printOptions();
-		printf("¼±ÅÃÇÏ¼¼¿ä : ");
+		printf("ë©”ë‰´ì—ì„œ ì„ íƒí•˜ì„¸ìš” : ");
 		choice = getchar();
 
 		if (choice == 'q') {
@@ -29,15 +29,15 @@ int main(void) {
 		}
 
 		else if (choice == 'c') {
-			printf("¼·¾¾¿Âµµ : ");
+			printf("ì„­ì”¨ì˜¨ë„ : ");
 			scanf_s("%lf", &temp);
-			printf("È­¾¾¿Âµµ : %lf \n", c2f(temp));
+			printf("í™”ì”¨ì˜¨ë„ : %lf \n", c2f(temp));
 		}
 
 		else if (choice == 'f') {
-			printf("È­¾¾¿Âµµ : ");
+			printf("í™”ì”¨ì˜¨ë„ : ");
 			scanf_s("%lf", &temp);
-			printf("¼·¾¾¿Âµµ : %lf \n", f2c(temp));
+			printf("ì„­ì”¨ì˜¨ë„ : %lf \n", f2c(temp));
 		}
 
 		getchar();

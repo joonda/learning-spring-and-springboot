@@ -1,5 +1,5 @@
 #include <stdio.h>
-/* global variable ÁöÁ¤ */
+/* global variable ì§€ì • */
 int A;
 int B;
 int counter;
@@ -17,7 +17,7 @@ int main()
 	answer = add();
 	printf("%d + %d = %d\n", A, B, answer);
 
-	/* Àü¿ªº¯¼ö´Â ÄÄÆÄÀÏ·¯°¡ ÇÁ·Î±×·¥ ½ÇÇà ½Ã, 0À¸·Î ÃÊ±âÈ­ */
+	/* ì „ì—­ë³€ìˆ˜ëŠ” ì»´íŒŒì¼ëŸ¬ê°€ í”„ë¡œê·¸ë¨ ì‹¤í–‰ ì‹œ, 0ìœ¼ë¡œ ì´ˆê¸°í™” */
 	printf("counter = %d \n", counter);
 
 	return 0;

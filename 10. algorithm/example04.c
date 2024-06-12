@@ -1,3 +1,4 @@
+/* ì˜¨ë„ ë³€í™˜ ì•Œê³ ë¦¬ì¦˜ */
 #include <stdio.h>
 
 double c2f(double temp) {
@@ -7,10 +8,10 @@ double c2f(double temp) {
 int main(void) {
 	int temp;
 	
-	printf("¼·¾¾ ¿Âµµ¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+	printf("ì„­ì”¨ ì˜¨ë„ë¥¼ ì…ë ¥í•˜ì„¸ìš”. : ");
 	scanf_s("%d", &temp);
 
-	printf("¼·¾¾ ¿Âµµ %d´Â È­¾¾ ¿Âµµ %.3f ÀÔ´Ï´Ù.", temp, c2f(temp));
+	printf("ì„­ì”¨ì˜¨ë„ %dë„ëŠ” í™”ì”¨ì˜¨ë„ %.3f ì…ë‹ˆë‹¤.", temp, c2f(temp));
 
 	return 0;
 }

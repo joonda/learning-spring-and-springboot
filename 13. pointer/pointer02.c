@@ -1,17 +1,17 @@
 #include <stdio.h>
 
-int main(void) {
-	int i;
-	char str[4];
-	str[0] = 'a';
-	str[1] = 'b';
-	str[2] = 'c';
-	str[3] = '\0';
+int main(void)
+{
+    int i = 10;
+    int *pi = &i;
 
-	i = 0;
-	while (str[i] != '\0') {
-		printf("%c ", str[i]);
-		i++;
-	}
-	return 0;
+    printf("i = %d, pi = %p \n", i, pi);
+    (*pi)++; /* 포인터 pi가 간접적으로 접근한 변수의 값을 증가 시킨다. */
+    printf("i = %d, pi = %p \n", i, pi);
+
+    printf("i = %d, pi = %p \n", i, pi);
+    *pi++; /* pi가 가리키는 위치에서 값을 가져온 후, pi를 증가 시킨다. */
+    printf("i = %d, pi = %p \n", i, pi);
+
+    return 0;
 }

@@ -1,4 +1,4 @@
-/* º¯¼öÀÇ ÁÖ¼Ò Ãâ·Â */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ */
 
 #include <stdio.h>
 
@@ -7,9 +7,9 @@ int main(void) {
 	char c = 69;
 	float f = 12.3;
 
-	printf("iÀÇ (%d) ÁÖ¼Ò %u \n", i, &i);
-	printf("cÀÇ (%c) ÁÖ¼Ò %u \n", c, &c);
-	printf("fÀÇ (%f) ÁÖ¼Ò %u \n", f, &f);
+	printf("iì˜ (%d) ì£¼ì†Œ %u \n", i, &i);
+	printf("cì˜ (%c) ì£¼ì†Œ %u \n", c, &c);
+	printf("fì˜ (%f) ì£¼ì†Œ %u \n", f, &f);
 
 	return 0;
 }

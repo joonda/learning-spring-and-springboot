@@ -5,8 +5,8 @@ int main(void) {
 
 	for (i = 0; i < 5; i++) {
 
-		// temp¸¦ Áö¼ÓÀûÀ¸·Î 1·Î ÃÊ±âÈ­ ÁøÇà
-		// Áö¿ªº¯¼ö temp
+		// tempë¥¼ ì§€ì†ì ìœ¼ë¡œ 1ë¡œ ì´ˆê¸°í™” ì§„í–‰
+		// ì§€ì—­ ë³€ìˆ˜ temp
 		int temp = 1;
 		printf("temp = %d\n", temp);
 		temp++;

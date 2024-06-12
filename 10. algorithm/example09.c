@@ -3,10 +3,10 @@
 
 int money_operator(int total_money, int c_money) {
 	if (total_money > c_money) {
-		printf("%d¿øÀÌ ¸ğÀÚ¶ø´Ï´Ù,", abs(total_money - c_money));
+		printf("%dì›ì´ ë¶€ì¡±í•©ë‹ˆë‹¤,", abs(total_money - c_money));
 	}
 	else {
-		printf("°Å½º¸§µ·Àº %d¿ø ÀÔ´Ï´Ù.", c_money - total_money);
+		printf("ê±°ìŠ¤ë¦„ ëˆ %dì› ì…ë‹ˆë‹¤.", c_money - total_money);
 	}
 	return 0;
 }
@@ -15,7 +15,7 @@ int main(void) {
 	int cus_money;
 	int tot_money;
 
-	printf("ÁöºÒÇÒ µ·°ú ¹°Ç° ÀüÃ¼ ±İ¾×À» ÀÔ·ÂÇØÁÖ¼¼¿ä. : ");
+	printf("ì§€ë¶ˆí•  ëˆê³¼ ë¬¼í’ˆ ì „ì²´ ê¸ˆì•¡ì„ ì…ë ¥í•´ì£¼ì„¸ìš” : ");
 	scanf_s("%d, %d", &cus_money, &tot_money);
 
 	money_operator(tot_money, cus_money);

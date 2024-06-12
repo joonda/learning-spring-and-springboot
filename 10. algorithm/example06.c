@@ -4,7 +4,7 @@ int main(void) {
 	int num1, num2;
 	char operator;
 
-	printf("µÎ °³ÀÇ Á¤¼ö¿Í ¿¬»êÀÚ ÇÑ °³¸¦ ÀÔ·ÂÇÏ¼¼¿ä ! : ");
+	printf("ë‘ ê°œì˜ ì •ìˆ˜ì™€ ì—°ì‚°ìë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš” ! : ");
 	scanf_s("%d, %d, %c", &num1, &num2, &operator);
 	
 	switch (operator) {
@@ -23,12 +23,12 @@ int main(void) {
 			printf("%d / %d = %d \n", num1, num2, num1 / num2);
 		}
 		else {
-			printf("0À¸·Î ³ª´­ ¼ö ¾ø½À´Ï´Ù. \n");
+			printf("0ìœ¼ë¡œ ë‚˜ëˆŒ ìˆœ ì—†ìŠµë‹ˆë‹¤. \n");
 		}
 		break;
 	default:
 
-		printf("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. \n");
+		printf("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. \n");
 	}
 	return 0;
 }

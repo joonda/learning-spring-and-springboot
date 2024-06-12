@@ -2,25 +2,26 @@
 
 int main(void)
 {
-	// ΖχΐΞΕΝ Ί―Όφ Ό±Ύπ
+	/* ν¬μΈν„° λ³€μ μ§€μ •
+	char, int, doubleν• ν¬μΈνΈ λ³€μ μ§€μ • */
 	char* pc;
 	int* pi;
 	double* pd;
 
-	// ΐΣΐΗΐΗ ΑΦΌÒ °ª ΄λΐΤ
+	// μ„μμ μ£Όμ† κ°’ λ€μ…
 	pc = (char*)10000;
 	pi = (int*)10000;
 	pd = (double*)10000;
 
-	// Αυ°΅ ΐό, ΑΦΌÒ °ª Θ®ΐΞ
-	printf("Αυ°΅ ΐό pc = %d, pi = %d, pd = %d \n", pc, pi, pd);
+	// μ¦κ°€ μ „ μ£Όμ† κ°’ λ€μ…
+	printf("μ¦κ°€ μ „ pc = %d, pi = %d, pd = %d \n", pc, pi, pd);
 
 	pc++;
 	pi++;
 	pd++;
 
-	// Αυ°΅ ΘΔ, ΑΦΌÒ °ª Θ®ΐΞ
-	printf("Αυ°΅ ΘΔ pc = %d, pi = %d, pd = %d \n", pc, pi, pd);
+	// μ¦κ°€ ν›„ μ£Όμ† κ°’ λ€μ…
+	printf("μ¦κ°€ ν›„ pc = %d, pi = %d, pd = %d \n", pc, pi, pd);
 	printf("pc+2 = %d, pi+2 = %d, pd+2 = %d \n", pc+2, pi+2, pd+2);
 
 	return 0;

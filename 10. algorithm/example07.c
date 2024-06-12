@@ -1,4 +1,4 @@
-/* ¿¬µµ¸¦ ÀÔ·Â¹Ş¾Æ À±³â ¿©ºÎ¸¦ Ã¼Å©ÇÏ´Â ÇÁ·Î±×·¥ */
+/* ìœ¤ë…„ íŒë³„ í”„ë¡œê·¸ë¨ */
 
 #include <stdio.h>
 
@@ -16,9 +16,9 @@ int main(void) {
 	printf("input year : ");
 	scanf_s("%d", &year);
 	if (Leapyear(year) == 1) {
-		printf("%d³âÀº À±³âÀÔ´Ï´Ù. \n", year);
+		printf("%dë…„ì€ ìœ¤ë…„ì…ë‹ˆë‹¤. \n", year);
 	}
 	else {
-		printf("%d³âÀº À±³âÀÌ ¾Æ´Õ´Ï´Ù. \n", year);
+		printf("%dë…„ì€ ìœ¤ë…„ì´ ì•„ë‹™ë‹ˆë‹¤. \n", year);
 	}
 }

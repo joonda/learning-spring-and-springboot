@@ -1,7 +1,7 @@
-/* ÆÑÅä¸®¾ó °è»ê */
+/* íŒ©í† ë¦¬ì–¼ í•¨ìˆ˜ */
 
 #include <stdio.h>
-
+/* factorial ìž¬ê·€ í•¨ìˆ˜ */
 int factorial(int n) {
 	if (n <= 1) {
 		return 1;

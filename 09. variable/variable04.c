@@ -1,7 +1,7 @@
 #include <stdio.h>
-/* sum, i ¸ðµÎ ÀÚµ¿ º¯¼ö
-ÇÔ¼ö°¡ ½ÃÀÛµÇ¸é »ý¼ºµÇ¸ç ³¡³ª¸é ¼Ò¸ê
-ÇÔ¼ö ³»¿¡¼­ ¼±¾ðµÈ ´ëºÎºÐÀÇ º¯¼ö°¡ auto º¯¼ö¶ó°í ÇÒ ¼ö ÀÖ´Ù.*/
+/* sum, i ëª¨ë‘ ìžë™ ë³€ìˆ˜
+í•¨ìˆ˜ê°€ ì‹œìž‘ë˜ë©´ ìƒì„±ë˜ë©° ëë‚˜ë©´ ì†Œë©¸ëœë‹¤
+í•¨ìˆ˜ ë‚´ì—ì„œ ì„ ì–¸ëœ ëŒ€ë¶€ë¶„ì˜ ë³€ìˆ˜ê°€ auto ë³€ìˆ˜ë¼ê³  í•  ìˆ˜ ìžˆë‹¤. */
 
 int main(void) {
 	auto int sum = 0;

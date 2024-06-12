@@ -3,13 +3,13 @@
 int hour_minute(int totalminute) {
 	int hours = totalminute / 60;
 	int minute = totalminute % 60;
-	printf("%dºĞ >> %d½Ã°£ %dºĞ \n", totalminute, hours, minute);
+	printf("%dë¶„ >> %dì‹œê°„ %dë¶„ \n", totalminute, hours, minute);
 	return 0;
 }
 
 int main(void) {
 	int minute;
-	printf("ºĞÀ» ÀÔ·ÂÇÏ¼¼¿ä! : ");
+	printf("ë¶„ì„ ì…ë ¥í•´ì£¼ì„¸ìš” ! : ");
 	scanf_s("%d", &minute);
 
 	hour_minute(minute);

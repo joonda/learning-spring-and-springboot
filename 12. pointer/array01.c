@@ -1,4 +1,4 @@
-/* 2���� �迭 */
+/* 2차원 배열 활용 */
 
 #include <stdio.h>
 #include <stdlib.h>

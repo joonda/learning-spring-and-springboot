@@ -1,5 +1,4 @@
-/* ÁÖ»çÀ§ 10,000¹ø ´øÁ®¼­ ³ª¿Â ¼ıÀÚ ¹è¿­¿¡ Ç¥ÇöÇÏ±â */
-
+/* ì£¼ì‚¬ìœ„ë¥¼ 10,000ë²ˆ ë˜ì ¸ì„œ ê° ë©´ì´ ë‚˜ì˜¤ëŠ” íšŸìˆ˜ë¥¼ ì¶œë ¥í•˜ê¸° */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -8,7 +7,7 @@ int main(void) {
 	int arr[6] = { 0, 0, 0, 0, 0, 0 };
 	int i;
 
-	srand(time(NULL));
+	srand(time(NULL)); 
 
 	for (i = 0; i < 10000; i++) {
 		++arr[rand() % 6];

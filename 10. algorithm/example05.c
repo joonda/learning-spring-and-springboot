@@ -3,10 +3,10 @@
 void showMenu()
 {
 	printf("**********ATM**********\n");
-	printf("1. ÀÔ±İ(Deposit)\n");
-	printf("2. Ãâ±İ(Withdraw)\n");
-	printf("3. °èÁÂ Á¶È¸(Balance)\n");
-	printf("4. ³ª°¡±â(Exit)\n");
+	printf("1. ì…ê¸ˆ(Deposit)\n");
+	printf("2. ì¶œê¸ˆ(Withdraw)\n");
+	printf("3. ì”ì•¡ ì¡°íšŒ(Balance)\n");
+	printf("4. ë‚˜ê°€ê¸°(Exit)\n");
 	printf("************************\n");
 }
 
@@ -21,35 +21,35 @@ int main(void) {
 		scanf_s("%d", &choice);
 		switch (choice) {
 		case 1:
-			printf("ÀÔ±İÇÒ ±İ¾× : ");
+			printf("ì…ê¸ˆí•  ê¸ˆì•¡ : ");
 			scanf_s("%d", &amount);
 			balance += amount;
-			printf("%d¿ø ÀÔ±İ¿Ï·á! \n", amount);
+			printf("%dì› ì…ê¸ˆ ì™„ë£Œ! \n", amount);
 			printf("\n");
 			break;
 		case 2:
-			printf("Ãâ±İÇÒ ±İ¾× : ");
+			printf("ì¶œê¸ˆí•  ê¸ˆì•¡ : ");
 			scanf_s("%d", &amount);
 			if (amount > balance) {
-				printf("ÀÜ¾× ºÎÁ· \n");
+				printf("ì”ì•¡ ë¶€ì¡±! \n");
 				printf("\n");
 			}
 			else {
 				balance -= amount;
-				printf("%d¿ø Ãâ±İ¿Ï·á ! \n", amount);
-				printf("ÀÜ°í : %d¿ø \n", balance);
+				printf("%dì› ì¶œê¸ˆ ì™„ë£Œ ! \n", amount);
+				printf("ì”ì•¡ : %dì› \n", balance);
 				printf("\n");
 			}
 			break;
 		case 3:
-			printf("ÀÜ¾× Á¶È¸ : %d¿ø \n", balance);
+			printf("ì”ì•¡ ì¡°íšŒ : %dì› \n", balance);
 			printf("\n");
 			break;
 		case 4:
-			printf("ATMÀ» Á¾·áÇÕ´Ï´Ù. \n");
+			printf("ATMì„ ì¢…ë£Œí•©ë‹ˆë‹¤. \n");
 			exit(0);
 		default:
-			printf("Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù.  \n");
+			printf("ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤. \n");
 		}
 	}
 	return 0;

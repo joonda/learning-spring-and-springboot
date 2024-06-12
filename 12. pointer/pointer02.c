@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	int i = 10; // 정수형 변수 i 선언
+	int i = 10;
 	double f = 12.3;
 
 	int* pi = NULL;

@@ -5,20 +5,22 @@ int main(void) {
 	int i, ave=0;
 
 	for (i = 0; i < 10; i++) {
-		printf("%d ¹øÂ° ÇĞ»ıÀÇ ¼ºÀûÀº ? ", i + 1);
+		printf("%d ë²ˆì§¸ í•™ìƒì˜ ì„±ì ì€? ", i + 1);
 		scanf_s("%d", &arr[i]);
 	}
 
 	for (i = 0; i < 10; i++) {
 		ave = ave + arr[i];
 	}
+	printf("ì „ì²´ í•™ìƒì˜ í‰ê·  : %d \n", ave/10);
 
 	for (i = 0; i < 10; i++) {
+		
 		if (arr[i] >= ave/10) {
-			printf("ÇĞ»ı %d : ÇÕ°İ \n", i + 1);
+			printf("í•™ìƒ %d : í•©ê²© \n", i + 1);
 		}
 		else {
-			printf("ÇĞ»ı %d : ºÒÇÕ°İ \n", i + 1);
+			printf("í•™ìƒ %d : ë¶ˆí•©ê²© \n", i + 1);
 		}
 	}
 	return 0;

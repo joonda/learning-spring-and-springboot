@@ -1,4 +1,4 @@
-/* 3°¡Áö Á¤¼ö¸¦ ÀÔ·Â ¹Ş°í ±× Áß ÃÖ´ñ°ª Ã£±â */
+/* 3ê°œì˜ ì •ìˆ˜ë¥¼ ì…ë ¥ ë°›ì•„ ìµœëŒ“ê°’ì„ êµ¬í•˜ëŠ” ê²ƒ */
 
 #include <stdio.h>
 
@@ -19,6 +19,6 @@ int main(void) {
 
 	printf("input numbers : ");
 	scanf_s("%d, %d, %d", &x, &y, &z);
-	printf("max number : %d", max(x, y, z));
+	printf("max number : %d \n", max(x, y, z));
 	return 0;
 }
