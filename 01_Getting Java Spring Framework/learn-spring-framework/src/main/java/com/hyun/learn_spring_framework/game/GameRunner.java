@@ -1,7 +1,8 @@
 package com.hyun.learn_spring_framework.game;
 
 public class GameRunner {
-    private SuperContraGame game; // 의존성
+    private SuperContraGame game; // 외부에서 접근 불가 (변수 관리 차원)
+
     public GameRunner(SuperContraGame game) { // 생성자를 통한 의존성 주입
         this.game = game;
     }
