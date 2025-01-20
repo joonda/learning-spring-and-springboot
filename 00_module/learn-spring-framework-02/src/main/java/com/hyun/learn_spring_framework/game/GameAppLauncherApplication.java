@@ -1,7 +1,5 @@
-package com.hyun.learn_spring_framework;
+package com.hyun.learn_spring_framework.game;
 
-import com.hyun.learn_spring_framework.game.GameRunner;
-import com.hyun.learn_spring_framework.game.GamingConsole;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
