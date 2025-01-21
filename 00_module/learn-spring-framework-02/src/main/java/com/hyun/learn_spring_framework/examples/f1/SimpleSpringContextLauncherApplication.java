@@ -1,4 +1,4 @@
-package com.hyun.learn_spring_framework.examples.a0;
+package com.hyun.learn_spring_framework.examples.f1;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
