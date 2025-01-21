@@ -106,4 +106,22 @@ Dependency2 dependency2;
     * Bean -> 비즈니스 로직 작성, 제 3자 라이브러리 Bean을 인스턴스 (e.g. Spring Security)
 
 ## 7. Java Spring Application에 의존성이 있는 이유
-* 
+* Web -> Business -> Data
+* 객체가 아닌, 의존성과 와이어링에 집중할 수 있다.
+    * 비즈니스 로직에 집중할 수 있다.
+* 객체의 주기를 관리하는데에 큰 이점.
+
+## 8. 예제 구현
+* RealWorldSpringContext 구현
+
+## 9. Java Spring Framework 복습
+* Coupling
+* Java Interface
+* Spring Container (ApplicationContext)
+* Java Bean vs. Spring Bean
+* Dependency Injection
+* Dependency Injection Types
+* Annotation
+* @Bean vs. @Component
+* @Primary vs. @Qualifier
+* Hands-on
