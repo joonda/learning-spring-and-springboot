@@ -91,7 +91,7 @@ System.out.println(Context.getBean(Address.class)); // Call Address class
 System.out.println(Context.getBean(Address.class));
 // Bean은 원래 싱글톤 배치를 한다, 하지만 2개 이상의 Bean이 보이면 에러를 보낸다.
 ~~~
-![Bean_error.png](learn-spring-framework/img/Bean_error.png)
+![Bean_error.png](./img/Bean_error.png)
 
 // error ->  expected single matching bean but found 2: address2,address3
 * 우리가 아닌, Spring이 객체를 만들게 하면 어떨까 ?
