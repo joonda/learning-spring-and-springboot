@@ -1,8 +1,8 @@
 <html>
-<head>
-    <title>My first HTML Page - jsp</title>
-</head>
-<body>
-    My first html page with body - jsp wow!
-</body>
+    <head>
+        <title>Login page</title>
+    </head>
+    <body>
+        Hello this is Login Page ${name}!
+    </body>
 </html>
