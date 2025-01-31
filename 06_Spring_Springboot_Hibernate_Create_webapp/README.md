@@ -901,3 +901,220 @@ public class TodoController {
 }
 ~~~
 ![addTodo](./img/addTodo.png)
+
+## 22. Spring Boot Starter Validation을 이용하여 검증 추가하기
+
+#### 1차 검증
+* input 태그에 `required="required"` 추가하여 빈칸을 1차적으로 검증
+`todo.jsp`
+~~~
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html>
+    <head>
+        <title>Add Todo Page</title>
+    </head>
+    <body>
+        <div class="container">
+            <form method="post">
+                Description: <input type="text" name="description" required="required" />
+                <input type="submit" class="btn btn-success">
+            </form>
+        </div>
+        <script src="webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+        <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
+    </body>
+</html>
+~~~
+
+* 하지만 HTML, JS로 구현한 검증은 뚫리기가 매우 쉬운 편이다..
+    * 최선의 방식은 서버 측 검증 방법이다.
+
+* 1: Spring Boot Starter Validation을 import
+    * pom.xml
+* 2: Command Bean (Form Backing Object)
+    * 양방향 바인딩이라는 개념을 구현 (todo.jsp, TodoController.java)
+* 3: Bean에 검증을 추가하는 단계
+    * Todo.java
+* 4: 검증 오류를 뷰에 표시하는 단계
+    * todo.jsp
+
+#### Spring Boot Starter Validation
+#### 1. spring-boot-starter-validation 의존성 추가
+* `pom.xml`
+~~~
+<!--spring-boot-starter-validation-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+~~~
+
+#### 2. 커맨드 빈 (Form Backing Object), 양식 보조 객체
+* `TodoController::addNewTodo()` 에서는 사용자 Description 입력 값을 @RequestParam으로 받고 있다.
+    * 하지만, 사용자 입력 값(필드)이 무한정으로 많아지면, 그 만큼 @RequestParam을 추가해야할 것이다. (코드 복잡성 증가)
+* `Todo` 빈에 직접 바인딩 하는 것이 더 좋을 수 있다.
+
+`TodoController`
+* @RequestParam을 지우고, ModelMap, Todo 객체를 파라미터로 받는다.
+* `todo.getDescription()`로 description을 받을 수 있다
+~~~
+// ... 생략
+@Controller
+@SessionAttributes("name")  
+public class TodoController {
+    // ... 생략
+    @RequestMapping(value = "add-todo", method = RequestMethod.POST)
+    // ModelMap, Todo 객체를 파라미터로 받는다.
+    public String addNewTodoPage(ModelMap model, Todo todo) {
+        String username = (String)model.get("name");
+        // todo.getDescription() 메서드로 description을 받을 수 있다.
+        todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false);
+        return "redirect:list-todos";
+    }
+}
+~~~
+
+* `todo.jsp`에서 양식 보조 객체를 설정 (양방향 바인딩)
+* form 태그 라이브러리 import
+* `form:form`, modelAttribute 파라미터로 todo에 매핑
+    * `TodoController::addNewTodo()` 파라미터에 있는 todo와 이름이 일치해야한다.
+* `form:input`, path 파라미터로 `Todo` 클래스의 description에 매핑
+* id, done에 null 값이 들어가지 않도록, input을 추가
+~~~
+<!-- ...생략 -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- ...생략 -->
+<!-- 접두사 form의 form 태그활용, modelAttribute 파라미터를 활용하여 todo에 매핑 -->
+<form:form method="post" modelAttribute="todo">
+    Description: <form:input type="text" path="description" required="required" />
+    <form:input type="hidden" path="id" />
+    <form:input type="hidden" path="done"/>
+    <input type="submit" class="btn btn-success">
+</form:form>
+<!-- ...생략 -->
+~~~
+
+* `TodoController::showNewTodoPage()` 연결
+~~~
+//...(생략)
+public class TodoController {
+    //...(생략)
+    @RequestMapping(value = "add-todo", method = RequestMethod.GET)
+    public String showNewTodoPage(ModelMap model) {
+        String username = (String)model.get("name");
+        Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
+        model.put("todo", todo);
+        return "todo";
+    }
+}
+~~~
+* new Todo를 사용하여 초기 값을 가진 객체를 생성
+    * 사용자가 값을 입력하면, 초기값을 대체 (입력되지 않은 값에 대한 초기화)
+* 해당 메서드에서 `addNewTodPage()` 메서드로 객체를 전달하기 때문에, id를 0으로 설정해도 `addNewTodoPage()` 내부에서 `todoService`가 일을 한다
+
+## 23. 커맨드 빈으로 새 Todo 페이지 검증 구현하기
+#### 단방향 바인딩
+* `TodoController::showNewTodoPage()`
+* 데이터 소스에서 view 단에 데이터가 전달되고, view 단에서 데이터 소스로는 전달되지 않는 경우
+~~~
+//...(생략)
+public class TodoController {
+    //...(생략)
+    @RequestMapping(value = "add-todo", method = RequestMethod.GET)
+    public String showNewTodoPage(ModelMap model) {
+        String username = (String)model.get("name");
+        Todo todo = new Todo(0, username, "default description", LocalDate.now().plusYears(1), false);
+        model.put("todo", todo);
+        return "todo";
+    }
+}
+~~~
+    * `Todo` 인스턴스 내의 `description`을 특정한 값으로 채워넣을 시, 페이지 실행하면 초기 값이 채워져 있다.
+
+#### 양방향 바인딩
+* `todo.jsp`에서 POST 요청을 통해 값을 입력하고, submit을 할 시 데이터가 `listTodos.jsp`에 반영
+* `todo.jsp` -> `addNewTodo()` -> `listTodos.jsp`
+* 많은 유연성을 주는 것이 특징!
+
+#### Bean 검증 추가
+`Todo`
+~~~
+import jakarta.validation.constraints.Size;
+//...(생략)
+public class Todo {
+	//...(생략)
+    @Size(min=3, message = "Enter at least 3 characters")
+    private String description;
+}
+~~~
+
+`TodoController`
+~~~
+// ... 생략
+import jakarta.validation.Valid;
+// ... 생략
+
+@Controller
+@SessionAttributes("name")  
+public class TodoController {
+    // ... 생략
+    @RequestMapping(value = "add-todo", method = RequestMethod.POST)
+    // Valid 어노테이션으로 바인딩이 이루어지기 전에, Todo Bean을 검증하게 된다.
+    public String addNewTodoPage(ModelMap model, @Valid Todo todo) {
+        String username = (String)model.get("name");
+        todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false);
+        return "redirect:list-todos";
+    }
+}
+~~~
+![validation](./img/validation.png)
+* 이렇게 에러가 난다.
+* 사용자 경험을 고려, view단에 노출시키는 것이 더욱 효율적이다.
+
+#### BindingResult 활용, 에러 메시지 view단에 노출하기
+* BindingResult의 hasErrors() 메서드 활용
+    * 에러 발생 시, `list-todos.jsp` 페이지가 아닌, `todo` 페이지로 돌아간다 
+
+`TodoController`
+~~~
+// ... 생략
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+// ... 생략
+
+@Controller
+@SessionAttributes("name")  
+public class TodoController {
+    // ... 생략
+    @RequestMapping(value = "add-todo", method = RequestMethod.POST)
+    // Valid 어노테이션으로 바인딩이 이루어지기 전에, Todo Bean을 검증하게 된다.
+    public String addNewTodoPage(ModelMap model, @Valid Todo todo, BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "todo";
+        }
+
+        String username = (String)model.get("name");
+        todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false);
+        return "redirect:list-todos";
+    }
+}
+~~~
+
+* `todo.jsp` 에서 form:error 태그 활용
+~~~
+<!-- ...생략 -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- ...생략 -->
+<!-- 접두사 form의 form 태그활용, modelAttribute 파라미터를 활용하여 todo에 매핑 -->
+<form:form method="post" modelAttribute="todo">
+    Description: <form:input type="text" path="description" required="required" />
+    <form:errors path="description" />
+    <form:input type="hidden" path="id" />
+    <form:input type="hidden" path="done"/>
+    <input type="submit" class="btn btn-success">
+</form:form>
+<!-- ...생략 -->
+~~~
+![validation2](./img/validation2.png)
