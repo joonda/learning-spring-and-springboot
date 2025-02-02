@@ -30,7 +30,7 @@ server.port=8081
 * RequestMapping > URL mapping 
 * ResponseBody > return 한 그대로를 브라우저에 리턴하는 것을 의미한다.
 * `SayHelloController`
-~~~
+~~~java
 @Controller
 public class SayHelloController {
     @RequestMapping("say-hello")
@@ -45,7 +45,7 @@ public class SayHelloController {
 ## 4-1. HTML 응답 제공 위해 Spring MVC 컨트롤러 개선하기
 * HTML을 return 하는 메서드
 * `SayHelloController`
-~~~
+~~~java
 @RequestMapping("say-hello-html")
 @ResponseBody
 public String sayHelloHtml() {
@@ -92,7 +92,7 @@ spring.mvc.view.suffix=.jsp
 
 4. Mapping 추가
     * @ResponseBody 가 있으면 return 되는 String 값을 출력하니 주의!
-~~~
+~~~java
 @Controller
 public class SayHelloController {
     @RequestMapping("say-hello-jsp")
@@ -105,7 +105,7 @@ public class SayHelloController {
 ## 6. 예제 - LoginController와 login 뷰 만들기 
 1. login 패키지에 LoginController 클래스를 만듦
 * `src/main/java/com/hyun/springboot/myfirstwebapp/login/LoginController.java`
-~~~
+~~~java
 @Controller
 public class LoginController {
 
@@ -150,7 +150,7 @@ http://localhost:8080/login?name=hyun
 ~~~
 
 2. Controller에 RequestParam 어노테이션 추가
-~~~
+~~~java
 @RequestMapping("login")
 public String loginPage(@RequestParam String name) {
     System.out.println("Request param is : " + name);
@@ -168,7 +168,7 @@ public String loginPage(@RequestParam String name) {
 * @RequestParam 과 전달하려는 변수 타입과 변수이름을 설정
 * ModelMap을 활용, put으로 name을 전달한다.
 * jsp 파일에 변수를 저장한다.
-~~~
+~~~java
 public class LoginController {
 
     // http://localhost:8080/login?name=hyun
@@ -181,7 +181,7 @@ public class LoginController {
 }
 ~~~
 * `login.jsp`
-~~~
+~~~html
 <html>
     <head>
         <title>Login page</title>
@@ -209,7 +209,7 @@ logging.level.com.in28minutes.springboot.myfirstwebapp=debug
 
 #### slf4j를 사용해서 로깅 하기
 * `System.out.println()`을 활용해서 터미널에 로깅을 해왔지만 Logger를 사용해서 로깅할 수 있다.
-~~~
+~~~Java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -281,7 +281,7 @@ public class LoginController {
 
 ## 11. 로그인 양식 만들기
 * form 태그를 활용해서 양식을 만든다.
-~~~
+~~~html
 <form>
     Name : <input type="text" name="name">
     Password : <input type="password" name="password">
@@ -294,7 +294,7 @@ public class LoginController {
 
 * `GET`을 사용하면 모든 정보가 URL의 일부로서 전송된다
     * 안전하지 못한 방법 대신 `POST`를 쓴다
-~~~
+~~~html
 // form method에 post를 추가
 <form method="post">
     Name : <input type="text" name="name">
@@ -318,7 +318,7 @@ public class LoginController {
     * POST로 바뀌는 순간에, welcome 페이지로 리디렉션을 해야함.
     
 `LoginController`
-~~~ 
+~~~java
 package com.hyun.springboot.myfirstwebapp.login;
 
 import org.springframework.stereotype.Controller;
@@ -345,7 +345,7 @@ public class LoginController {
 * 이전에 사용했던 Request_param을 활용
 
 `LoginController`
-~~~
+~~~Java
 package com.hyun.springboot.myfirstwebapp.login;
 
 import org.springframework.stereotype.Controller;
@@ -369,7 +369,7 @@ public class LoginController {
 }
 ~~~
 `welcome.jsp`
-~~~
+~~~html
 <html>
     <head>
         <title>Welcome page</title>
@@ -396,7 +396,7 @@ public class LoginController {
     * 아니라면 로그인 페이지로 되돌린다.
 
 login 패키지의 `AuthenticationService` 클래스
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.login;
 
 import org.springframework.stereotype.Service;
@@ -417,7 +417,7 @@ public class AuthenticationService {
 
 ~~~
 `LoginController`
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.login;
 
 import org.springframework.stereotype.Controller;
@@ -464,7 +464,7 @@ public class LoginController {
 * RequestParam은 GET, POST 등 http 요청을 받아오는 것이기 때문에 다르다. 
 
 `LoginController`
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.login;
 
 import org.springframework.stereotype.Controller;
@@ -499,7 +499,7 @@ public class LoginController {
 }
 ~~~
 `login.jsp`
-~~~
+~~~html
 <html>
     <head>
         <title>Login page</title>
@@ -511,7 +511,7 @@ public class LoginController {
             Password : <input type="password" name="password">
             <input type="submit">
         </form>
-        // message를 화면에 뿌려준다.
+        <!-- message를 화면에 뿌려준다. -->
         <div>
             ${errorMessage}
         </div>
@@ -531,7 +531,7 @@ public class LoginController {
 * 완료 여부 
 
 todo 패키지의 `Todo` 클래스
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.todo;
 
 import java.time.LocalDate;
@@ -560,7 +560,7 @@ public class Todo {
             * 하지만, 복잡한 초기화가 필요할 경우, `static {}` 형태로 초기화를 진행
 
 `TodoService` 
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.todo;
 
 import java.time.LocalDate;
@@ -593,7 +593,7 @@ public class TodoService {
 #### `TodoService` 클래스
 * private로 선언했던 List를 인스턴스화 시켜야함 
     * 데이터 관리를 위해서 (List가 비어져있으면 안되기 때문에)
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.todo;
 
 import org.springframework.stereotype.Service;
@@ -626,7 +626,7 @@ public class TodoService {
 * listTodos.jsp 로 return 하기 위한 Controller 정의
 * TodoController에서 TodoService를 사용하기 위해 TodoService를 선언, 생성자를 만들어 인스턴스화 시킨다
     * 생성자 주입
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.todo;
 
 import org.springframework.stereotype.Controller;
@@ -665,7 +665,7 @@ public class TodoController {
 * 값을 여러 요청에 걸쳐 사용하기 위해 세션이 필요!
 * @SessionAttribute
     * 해당 값을 사용하려는 모든 컨트롤러에 해당 어노테이션을 지정!
-~~~
+~~~java
 @Controller
 @SessionAttributes("name")
 public class LoginController() {
@@ -708,10 +708,10 @@ public class TodoController() {
 
 * jsp에서 JSTL 임포트, 테이블을 통해서 데이터 넣기
 `listTodos.jsp`
-~~~
+~~~jsp
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 ~~~
-~~~
+~~~html
  <table>
     <thead>
         <tr>
@@ -751,7 +751,7 @@ public class TodoController() {
 </dependency>
 ~~~
 * 원하는 파일에 import
-~~~
+~~~jsp
 <html>
     <head>
         <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
@@ -782,12 +782,12 @@ public class TodoController() {
 
 #### 새로운 뷰 만들기
 `listTodo.jsp`
-~~~
+~~~jsp
 <a href="add-todo" class="btn btn-primary">Add Todo</a>
 ~~~
 
 `TodoController`
-~~~
+~~~java
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -807,7 +807,7 @@ public class TodoController {
         * redirect에서는 jsp 파일이(View Resolver) 아닌, 엔드포인트(url)을 추가해야함! 
 
 `TodoController`
-~~~
+~~~java
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -831,7 +831,7 @@ public class TodoController {
 * Todo 클래스를 바탕으로 새로운 Todo 객체 생성 후, 이미 선언된 `todos` ArrayList에 추가
 
 `TodoService`
-~~~
+~~~java
 package com.hyun.springboot.myfirstwebapp.todo;
 
 import org.springframework.stereotype.Service;
@@ -876,7 +876,7 @@ public class TodoService {
 
 
 `TodoController`
-~~~
+~~~java
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -907,7 +907,7 @@ public class TodoController {
 #### 1차 검증
 * input 태그에 `required="required"` 추가하여 빈칸을 1차적으로 검증
 `todo.jsp`
-~~~
+~~~jsp
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
@@ -958,7 +958,7 @@ public class TodoController {
 `TodoController`
 * @RequestParam을 지우고, ModelMap, Todo 객체를 파라미터로 받는다.
 * `todo.getDescription()`로 description을 받을 수 있다
-~~~
+~~~java
 // ... 생략
 @Controller
 @SessionAttributes("name")  
@@ -981,7 +981,7 @@ public class TodoController {
     * `TodoController::addNewTodo()` 파라미터에 있는 todo와 이름이 일치해야한다.
 * `form:input`, path 파라미터로 `Todo` 클래스의 description에 매핑
 * id, done에 null 값이 들어가지 않도록, input을 추가
-~~~
+~~~jsp
 <!-- ...생략 -->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!-- ...생략 -->
@@ -996,7 +996,7 @@ public class TodoController {
 ~~~
 
 * `TodoController::showNewTodoPage()` 연결
-~~~
+~~~java
 //...(생략)
 public class TodoController {
     //...(생략)
@@ -1017,7 +1017,7 @@ public class TodoController {
 #### 단방향 바인딩
 * `TodoController::showNewTodoPage()`
 * 데이터 소스에서 view 단에 데이터가 전달되고, view 단에서 데이터 소스로는 전달되지 않는 경우
-~~~
+~~~java
 //...(생략)
 public class TodoController {
     //...(생략)
@@ -1039,7 +1039,7 @@ public class TodoController {
 
 #### Bean 검증 추가
 `Todo`
-~~~
+~~~java
 import jakarta.validation.constraints.Size;
 //...(생략)
 public class Todo {
@@ -1050,7 +1050,7 @@ public class Todo {
 ~~~
 
 `TodoController`
-~~~
+~~~java
 // ... 생략
 import jakarta.validation.Valid;
 // ... 생략
@@ -1077,7 +1077,7 @@ public class TodoController {
     * 에러 발생 시, `list-todos.jsp` 페이지가 아닌, `todo` 페이지로 돌아간다 
 
 `TodoController`
-~~~
+~~~java
 // ... 생략
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
@@ -1103,7 +1103,7 @@ public class TodoController {
 ~~~
 
 * `todo.jsp` 에서 form:error 태그 활용
-~~~
+~~~jsp
 <!-- ...생략 -->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!-- ...생략 -->
@@ -1118,3 +1118,202 @@ public class TodoController {
 <!-- ...생략 -->
 ~~~
 ![validation2](./img/validation2.png)
+
+## 24. Todo 삭제 기능 구현하기
+#### 삭제 버튼 추가
+`listTodos.jsp`
+~~~jsp
+<td><a href="delete-todo?id=${todo.id}" class="btn btn-warning">DELETE</a></td>
+~~~
+* url 뒤에 id값을 쿼리 파라미터로 넘겨준다.
+
+#### 삭제 로직 추가
+`TodoService`
+~~~java
+// ...생략
+@Service
+public class TodoService {
+    // ...생략
+    public void deleteById(int id) {
+    todos.removeIf(todo -> todo.getId() == id);
+    }
+}
+~~~
+* `todo`의 `getId()` 메서드에서 찾은 id가 파라미터로 받아오는 id와 같을 때 삭제한다.
+* 함수형 프로그래밍
+
+#### 삭제 컨트롤러 추가
+`TodoController`
+~~~java
+// ...생략
+@Controller
+@SessionAttributes("name")
+public class TodoController {
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
+    // ... 생략
+    @RequestMapping("delete-todo")
+    public String deleteTodo(@RequestParam int id) {
+        // Delete todo
+        todoService.deleteById(id);
+        // 삭제 버튼을 누르면, delete-todo로 가게되고, 여기서 list-todos로 리다이렉트.
+        return "redirect:list-todos";
+    }
+}
+~~~
+* 삭제 버튼을 누르면, `todoService`의 `deleteById()`의 메서드가 실행됨.
+    * 이후 delete-todo로 이동 > 이후 list-todos로 리다이렉트.
+
+## 25. Todo 업데이트 구현하기 - 1 - Todo 업데이트 페이지 표시하기
+#### 업데이트 버튼 추가
+`listTodos.jsp`
+~~~jsp
+<td><a href="update-todo?id=${todo.id}" class="btn btn-primary">Update</a></td>
+~~~
+#### 업데이트 로직 추가
+~~~java
+// ...생략
+@Service
+public class TodoService {
+    // ...생략
+    public Todo findById(int id) {
+        return todos.stream()
+                .filter(todo -> todo.getId() == id) // id를 확인해서 해당되는 id만 필터링
+                .findFirst() // 제일 첫 번째 요소 가져오기 (description)
+                .get(); // 데이터를 꺼내온다.
+    }
+}
+~~~
+
+#### 업데이트 컨트롤러 추가
+`TodoController`
+~~~java
+// ...생략
+@Controller
+@SessionAttributes("name")
+public class TodoController {
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
+    // ... 생략 
+    @RequestMapping("update-todo")
+    public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+        Todo todo = todoService.findById(id);
+        model.addAttribute("todo", todo);
+        return "todo";
+    }
+}
+~~~
+
+## 26. Todo 업데이트 구현하기 - 1 - Todo 변경사항 저장
+`TodoController`
+
+#### 컨트롤러 분리
+~~~java
+// ...생략
+@Controller
+@SessionAttributes("name")
+public class TodoController {
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
+    // ... 생략 
+    @RequestMapping("update-todo")
+    public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+        Todo todo = todoService.findById(id);
+        model.addAttribute("todo", todo);
+        return "todo";
+    }
+    
+    @RequestMapping(value = "update-todo", method = RequestMethod.POST)
+    public String updateTodoPage(ModelMap model, @Valid Todo todo, BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "todo";
+        }
+
+        String username = (String)model.get("name");
+        todo.setUsername(username);
+        todoService.updateTodo(todo);
+        return "redirect:list-todos";
+    }
+}
+~~~
+* GET과 POST로 API 분리 진행
+
+#### 업데이트 로직 추가 
+`TodoService`
+~~~java
+// ...생략
+@Service
+public class TodoService {
+    // ...생략
+    public void updateTodo(@Valid Todo todo) {
+        deleteById(todo.getId());
+        todos.add(todo);
+    }
+}
+~~~
+* 여기서는 수정할 때 기존의 Todo를 삭제하고 새로 todo를 추가한다
+    * 효율적이진 않다.
+* TargetDate가 없는 문제가 존재 (목표 일시를 작성하는 form이 없어서 빈 값으로 초기화)
+
+## Todo 페이지에 목표 날짜 추가하기
+#### 목표 일자 추가하기
+~~~jsp
+<fieldset class="mb-3">
+    <form:label path="targetDate">Target Date</form:label>
+    <form:input type="text" path="targetDate" required="required" />
+    <form:errors path="targetDate" cssClass="text-warning"/>
+</fieldset>
+~~~
+* `path=targetDate`를 지정, input 추가
+* 애플리케이션 표준 날짜 형식 지정
+
+`application.properties`
+~~~
+spring.mvc.format.date=yyyy-MM-dd
+~~~
+
+#### Bootstrap Datepicker
+* datepicker 의존성 추가
+`pom.xml`
+~~~xml
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>bootstrap-datepicker</artifactId>
+    <version>1.9.0</version>
+</dependency>
+~~~
+
+* css, javascript 불러오기.
+`todo.jsp`
+~~~jsp
+<script src="webjars/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link href="webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
+~~~
+
+* Datepicker 적용
+`todo.jsp`
+~~~jsp
+<script type="text/javascript">
+    $('#targetDate').datepicker({
+        format: 'yyyy-mm-dd',
+    });
+</script>
+~~~
+
+## 28. 내비게이션 바를 추가하고 JSP 프레그먼트 구현하기
+#### JSP 프레그먼트
+* 내비게이션처럼 많은 페이지에 중복 작성되어야하는 HTML일 경우, JSP 프래그먼트를 만들어 처리할 수 있다.
+* `src/main/webapp/WEB-INF/jsp/common` 경로로 jsp 프래그먼트 파일 생성
+* jsp 파일에 적용
+~~~jsp
+<%@ include file="common/navigation.jspf"/>
+~~~
+
+## 29. Spring Security 사용할 준비하기
