@@ -1317,3 +1317,497 @@ spring.mvc.format.date=yyyy-MM-dd
 ~~~
 
 ## 29. Spring Security 사용할 준비하기
+#### `LoginController` 수정
+~~~java
+@Controller
+@SessionAttributes("name")
+public class WelcomeController {
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String gotoWelcomePage(ModelMap model) {
+        model.put("name", "Todd App");
+        return "welcome";
+    }
+}
+~~~
+* `AuthenticationService` 도 Spring Security로 대체할 것, 삭제
+* `login.jsp` 삭제
+
+## 30. Spring Boot Starter Security로 Spring Security 설정하기
+#### `pom.xml` 의존성 추가
+~~~~xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+~~~~
+
+#### 패스워드 확인
+* 의존성 추가 후 재실행 하면 security 패스워드가 생성된다
+    * 추가로 로그인 페이지가 자동으로 생성되며, 로그인을 해야 정상적으로 페이지에 들어갈 수 있다.
+* ID는 고정으로 `user`이며, password는 콘솔창에서 확인할수있다
+![spring-security-password](./img/spring-security-password.png)
+
+## 31. 사용자 지정 유저와 패스워드 인코더를 이용하여 Spring Security 설정하기
+* `security` 패키지 생성
+* `SpringSecurityConfiguration` 클래스 생성
+* `InMemoryUserDetailsManager` 는 메모리에 사용자 정보를 저장, 애플리케이션 실행마다 새로운 사용자 데이터를 설정
+    * 주로 학습, 테스트, 간단한 데모용으로 사용.
+
+#### 자격 증명 설정하기
+~~~java
+@Configuration
+public class SpringSecurityConfiguration {
+
+    @Bean
+    public InMemoryUserDetailsManager createUserDetailsManager() {
+        return new InMemoryUserDetailsManager(                
+                User.withDefaultPasswordEncoder()
+                        .username("Hyun")
+                        .password("dummy")
+                        .roles("USER", "ADMIN")
+                        .build()
+        );
+    }
+}
+~~~
+* `withDefaultPasswordEncoder`는 현재 잘 쓰이지 않는 기술이다.
+* 선택한 username, password로 로그인을 할 수 있다.
+
+#### 패스워드 인코더 사용하기
+~~~java
+@Configuration
+public class SpringSecurityConfiguration {
+    // ...생략
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+~~~
+* `passwordEncoder` 메서드를 선언한 후, 다시 로그인해보면 되지 않는다.
+* 패스워드가 암호화되었기 때문이다.
+
+#### 패스워드 인코딩 설정
+~~~java
+@Configuration
+public class SpringSecurityConfiguration {
+
+    @Bean
+    public InMemoryUserDetailsManager createUserDetailsManager() {
+        Function<String, String> passwordEncoder
+                = input -> passwordEncoder().encode(input);
+        return new InMemoryUserDetailsManager(
+                User.builder()
+                        .passwordEncoder(passwordEncoder)
+                        .username("Hyun")
+                        .password("dummy")
+                        .roles("USER", "ADMIN")
+                        .build()
+        );
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+~~~
+* `withDefaultPasswordEncoder()`를 `builder()`로 대체
+* 익명 클래스를 람다형식으로 구현
+
+## 32. 하드코딩된 사용자 ID 삭제하고 리팩터링하기
+* 현재 model로 jsp파일에 전달하는 name이 모두 하드코딩 되어있다.
+* 이를 스프링 시큐리티의 메서드로 전달할 수 있다.
+#### * `WelcomeController`
+~~~java
+@Controller
+@SessionAttributes("name")
+public class WelcomeController {
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String gotoWelcomePage(ModelMap model) {
+        model.put("name", getLoggedinUsername());
+        return "welcome";
+    }
+
+    private String getLoggedinUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+}
+~~~
+* `getLoggedinUsername()`으로 로그인시 ID를 return하여 jsp파일로 전달하고 있다.
+
+#### * `TodoController`
+~~~java
+@Controller
+@SessionAttributes("name")
+public class TodoController {
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
+
+    private TodoService todoService;
+    @RequestMapping("list-todos")
+    public String listAllTodos(ModelMap model) {
+        String username = (String)model.get("name");
+        List<Todo> todos =  todoService.findByUsername(username);
+        model.addAttribute("todos", todos);
+        return "listTodos";
+    }
+}
+~~~
+#### * `TodoService`
+~~~java
+@Service
+public class TodoService {
+    public List<Todo> findByUsername(String username) {
+        Predicate<? super Todo> predicate = todo -> todo.getUsername().equals(username);
+        return todos.stream().filter(predicate).toList();
+    }
+}
+~~~
+
+#### 문제점
+* 로그인 시, `welcome` 페이지를 거치지 않고 바로 `/list-todos`로 이동 시 인증 객체로부터 name을 받을 수 없어, 목록이 아예 없는 경우가 발생한다.
+~~~java
+@Controller
+@SessionAttributes("name")
+public class TodoController {
+
+    @RequestMapping("list-todos")
+    public String listAllTodos(ModelMap model) {
+        String username = getLoggedinUsername();
+        List<Todo> todos =  todoService.findByUsername(username);
+        model.addAttribute("todos", todos);
+        return "listTodos";
+    }
+    
+    private String getLoggedinUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+}
+~~~
+* 이전에 사용했던 방법으로 `getLoggedinUsername()` 클래스를 만들고, 기존에 `@SessionAttribute`와 `model.get()` 메서드로 받아온 "name" 대신 사용하여 인증 객체를 통한 데이터를 받아올 수 있다.
+
+## 33. Todo 애플리케이션에 새로운 사용자 설정하기
+#### 새로운 사용자 설정하기
+~~~java
+@Configuration
+public class SpringSecurityConfiguration {
+
+    @Bean
+    public InMemoryUserDetailsManager createUserDetailsManager() {
+
+        UserDetails userDetails1 = createNewUser("Hyun", "dummy");
+        UserDetails userDetails2 = createNewUser("Lee", "dummydummy");
+
+        return new InMemoryUserDetailsManager(userDetails1, userDetails2);
+    }
+
+    private UserDetails createNewUser(String username, String password) {
+        Function<String, String> passwordEncoder
+                = input -> passwordEncoder().encode(input);
+
+        return User.builder()
+                .passwordEncoder(passwordEncoder)
+                .username(username)
+                .password(password)
+                .roles("USER", "ADMIN")
+                .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+~~~
+* `InMemoryUserDetailsManager` 메서드는 가변 인자를 받기 때문에, 원하는 만큼 사용자를 넣을 수 있다.
+
+## 34. Spring Boot Starter Data JPA를 추가하고 H2 데이터베이스 준비하기
+#### 의존성 추가하기
+* `pom.xml` 
+~~~xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+~~~
+
+* `application.properties`
+~~~
+spring.datasource.url=jdbc:h2:mem:testdb
+~~~
+
+* 여기까지 진행 후, /h2-console 에 접시, Forbidden 에러 발생
+* Spring Security 때문에 이러한 오류가 발생한다.
+
+## 35. H2 콘솔을 사용하기 위해 Spring Security 설정하기
+#### Spring Security 디폴트 설정
+* 모든 url은 보호된다.
+* 승인되지 않은 요청에 대해서는 기본 로그인 양식이 제공한다.
+* CSRF가 기본적으로 활성화
+* 프레임을 허용하지 않음
+
+#### `SecurityFilterChain`
+* 웹 요청이 들어오면 언제나 먼저 이 체인이 처리한다.
+* 예시로 Security 설정 후, 무조건 로그인 후 페이지 접근이 가능했던 것처럼 `SecurityFilterChain`으로 다시 설정할 수 있다.
+~~~java
+@Configuration
+public class SpringSecurityConfiguration {
+    // ... 생략
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(
+          auth -> auth.anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        return http.build();
+    }
+}
+~~~
+* `authorizeHttpRequests()` : HTTP 요청에 대한 권한 설정
+    * `auth.anyRequest()` : 모든 HTTP 요청 대상
+    * `authenticated()` : 인증된 사용자만 접근
+* `formLogin()` : form 로그인 설정
+    * `Customizer.withDefaults()` : Spring Security에서 제공하는 기본 설정 사용
+* `csrf()` : CSRF(Cross-Site Request Forgery) 보호 구성
+* `headers()` : HTTP 응답 헤더 설정
+    * `frameOptions` : 프레임 옵션 제어
+
+## 36. Todo 엔터티를 만들고 Todo 데이터를 H2에 채워넣기
+#### `Todo` 클래스 엔터티 등록하기
+* `@Entity` 어노테이션 
+* `id` 필드에 `@Id` 어노테이션
+* `id` 필드에 `@GeneratedValue` 어노테이션
+    * 프라이머리 키 생성 방법 지정
+
+#### `data.sql` 작성
+* `data.sql`
+~~~sql
+insert into todo (ID, USERNAME, DESCRIPTION, TARGET_DATE, DONE)
+values (10001, 'Hyun', 'Learn Spring & Spring Boot', CURRENT_DATE(), false);
+~~~
+* 작성 후 애플리케이션 실행 시 오류 메시지 노출 (Table "TODO" not found)
+* `data.sql`은 기본적으로 엔터티가 처리되기 전에 실행된다
+    * 테이블은 엔터티가 처리될 때 생성
+    * data.sql은 테이블이 생성되기 전에 실행된다.
+    * 즉, 없는 테이블에 데이터를 넣으려고 하는 것으로 판단하기 때문에 오류 발생.
+
+* `application.properties` 설정 추가
+~~~
+spring.jpa.defer-datasource-initialization=true
+~~~
+
+## 37. TodoRepository를 만들고 H2 데이터베이스와 list-todos 페이지 연결하기
+#### `TodoRepository`
+~~~java
+@Repository
+public interface TodoRepository extends JpaRepository<Todo, Integer> { }
+~~~
+* 인터페이스로 파일 생성
+* `JpaRepository` 상속 
+    * `<T, ID>` : T는 관리하는 Bean (Database Entity) ID는 ID 필드의 타입
+* @Repository 부여
+
+#### `TodoControllerJpa`
+* `private TodoRepository todoRepository;` 필드 추가
+* 생성자 추가
+
+#### `TodoRepository` 사용하기
+`TodoRepository`
+~~~java
+@Repository
+public interface TodoRepository extends JpaRepository<Todo, Integer> {
+    public List<Todo> findByUsername(String username);
+}
+~~~
+
+`TodoControllerJpa`
+~~~java
+@Controller
+@SessionAttributes("name")
+public class TodoControllerJpa {
+    // ... 생략
+    @RequestMapping("list-todos")
+    public String listAllTodos(ModelMap model) {
+        String username = getLoggedinUsername();
+        // todoRepository로 변경.
+        List<Todo> todos =  todoRepository.findByUsername(username);
+        model.addAttribute("todos", todos);
+        return "listTodos";
+    }
+}
+~~~
+
+* 이 상태에서 실행하면, default constructor가 없다고 에러가 발생한다
+![JPA-default-contructor-error](./img/JPA-default-contructor-error.png)
+* 이를 해결하기 위해 `Todo` 클래스에 기본 생성자를 추가한다.
+
+`Todo`
+~~~java
+@Entity
+public class Todo {
+    public Todo() {}
+    // ... 생략
+}
+~~~
+
+## 38. 01- 모든 Todo 앱 기능을 H2 데이터베이스와 연결하기
+`TodoControllerJpa`
+```java
+@Controller
+@SessionAttributes("name")
+public class TodoControllerJpa {
+    // ...생략 
+    @RequestMapping(value = "add-todo", method = RequestMethod.POST)
+    public String addNewTodoPage(ModelMap model, @Valid Todo todo, BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "todo";
+        }
+
+        String username = getLoggedinUsername();
+        todo.setUsername(username);
+        todoRepository.save(todo);
+        return "redirect:list-todos";
+    }
+
+    @RequestMapping("delete-todo")
+    public String deleteTodo(@RequestParam int id) {
+        todoRepository.deleteById(id);
+        return "redirect:list-todos";
+    }
+
+    @RequestMapping(value = "update-todo", method = RequestMethod.GET)
+    public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+        Todo todo = todoRepository.findById(id).get();
+        model.addAttribute("todo", todo);
+        return "todo";
+    }
+
+    @RequestMapping(value = "update-todo", method = RequestMethod.POST)
+    public String updateTodoPage(ModelMap model, @Valid Todo todo, BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "todo";
+        }
+
+        String username = getLoggedinUsername();
+        todo.setUsername(username);
+        todoRepository.save(todo);
+        return "redirect:list-todos";
+    }
+    // ...생략 
+}
+```
+
+## 38. 02- Spring Boot Starter JPA와 JpaRepository의 세부 작동방식 이해하기
+#### Spring Boot 자동 설정이 하는 일
+* Spring Data JPA를 사용하기 위해 Spring Data JPA, H2 라이브러리를 추가했다.
+* 이를 통해서 진행하는 일
+    * JPA, Spring Data JPA 프레임워크 초기화
+    * In Memory database 연결이 설정된다
+    * 데이터베이스 연결 풀 설정
+    * 스크립트 자동 실행 `data.sql`
+
+#### 백그라운드 sql 쿼리
+`application.properties`
+~~~
+spring.jpa.show-sql=true
+~~~
+
+## 39. Todo 앱을 MySQL 데이터베이스에 연결하기(개요)
+* JPA와 Spring Data JPA를 이용하면 데이터베이스 연결이 쉽고 간단하다.
+* H2 데이터베이스가 아닌 MySQL 데이터베이스 연결 실습 진행
+* 진행 사항
+    * Docker 설치
+    * MySQL을 Docker컨테이너로서 실행 
+    * 애플리케이션을 MySQL 데이터베이스에 연결
+
+## 40. Docker 설치하기
+* [Docker Install](https://docs.docker.com/desktop/setup/install/windows-install/)
+* 'Docker Desktop Installer.exe' 를 다운로드
+* Docker Desktop for Windows - x86_64
+* 반드시 '관리자 계정'으로 설치
+* 특별한 상황이 아니라면 기본 값으로 설치하면 된다.
+
+* 명령 프롬프트, 터미널 또는 PowerShell에서 명령어 실행
+```
+docker --version
+```
+![docker-version-check](./img/docker-version-check.png)
+
+## 41. Todo 앱을 MySQL 데이터베이스에 연결하기
+#### 도커 실행행
+~~~
+docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=todos-user --env MYSQL_PASSWORD=dummytodos --env MYSQL_DATABASE=todos --name mysql --publish 3306:3306 mysql:8-oracle
+~~~
+* `docker run` : 도커 컨테이너 실행
+* `--detach` : 컨테이너를 백그라운드에서 실행하도록 설정
+* `--env MYSQL_ROOT_PASSWORD` : Root 패스워드 (관리자), "dummypassword"
+* `--env MYSQL_USER` : 사용자 계정 ID 생성 "todos-user"
+* `--env MYSQL_PASSWORD` : 사용자 계정 패스워드 설정 "dummytodos"
+* `--env MYSQL_DATABASE=todos` : 데이터베이스 생성 "todos"
+* `--name` : 컨테이너 이름 지정 "mysql"
+* `--publish 3306:3306` : 호스트 포트와 컨테이너의 포트 매핑 (MySQL 기본 포트인 3306으로 매핑)
+* `mysql:8-oracle` : mysql:8-oracle 이미지를 사용해서 컨테이너 생성 옵션
+
+#### 애플리케이션과 도커 데이터베이스 연결하기
+`pom.xml`
+~~~xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+</dependency>
+~~~
+
+`application.properties`
+~~~
+spring.datasource.url=jdbc:mysql://localhost:3306/todos
+spring.datasource.username=todos-user
+spring.datasource.password=dummytodos
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+spring.jpa.hibernate.ddl-auto=update
+~~~
+
+* 참고 명령어
+Docker를 사용해 MySQL 실행하기
+```
+docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=todos-user --env MYSQL_PASSWORD=dummytodos --env MYSQL_DATABASE=todos --name mysql --publish 3306:3306 mysql:8-oracle
+```
+
+```
+application.properties 
+#spring.datasource.url=jdbc:h2:mem:testdb
+ 
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/todos
+spring.datasource.username=todos-user
+spring.datasource.password=dummytodos
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+ 
+#todos-user@localhost:3306
+```
+
+```
+mysqlsh
+\connect todos-user@localhost:3306
+\sql
+use todos
+select * from todo;
+\quit
+```
