@@ -596,3 +596,80 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 * Swagger UI : REST API를 좀 더 시각적으로 보기 쉽도록 제공하는 툴
 
 ## 17. Swagger 문서의 자동 생성 구성하기
+#### * `pom.xml` 의존성 추가 [spring-doc](https://springdoc.org/#Introduction)
+~~~xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.8.4</version>
+</dependency>
+~~~
+#### API 문서 확인
+* `/swagger.ui.html` 엔드포인트로 접근, 자동 생성된 API 문서 확인 가능
+![spring-doc-wagger-ui](./img/spring-doc-swagger-ui.png)
+
+#### Open API 사양 확인
+* `/v3/api-docs` 엔드포인트로 이동하면, Open API 사양을 확인할 수 있다.
+![v3-api-docs](./img/v3-api-docs.png)
+
+* info: 일반적인 정보가 담겨있다, API 제목, 버전 등
+* servers: API의 노출 위치에 관한 정보
+* paths: 노출된 모든 리소스에 관한 세부 정보
+* components: 정의된 스키마에 대한 정보
+
+## 18. 콘텐츠 협상 알아보기 - XML 지원 구현하기
+#### 콘텐츠 협상
+* 클라이언트와 서버가 주고받을 데이터의 형식을 결정하는 과정
+* JSON 형식으로 사용자 세부 사항을 얻고자 할 수 있으나, 일부는 XML 형식의 응답을 기대할 수 있다.
+* Accept 헤더 사용.
+* 동일한 리소스에 대해 여러 표현 방식을 보유하는 것이 가능하다.
+    * e.g. 콘텐츠 형식 - XML or JSON or ...
+    * e.g. 다른 언어 - 영어 or 한국어 or ...
+
+#### `pom.xml` 의존성 추가
+~~~xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+~~~
+
+#### Talend API Tester 확인하기
+![content-nego](./img/content-nego.png)
+
+* 요청할 URL를 입력 후, HEADERS > Accept에 원하는 형식을 입력
+    * `application/xml` 을 입력하여 xml 형식로 받는다.
+* XML 표현과 Swagger 문서는 다른 고급 기능을 다룰 때, 몇 가지 문제를 일으킬 수 있으므로 의존성 주석처리 진행
+
+## 19. REST API의 국제화 알아보기
+#### Internationalization - i18n
+* 다른 언어를 사용하는 사용자에게 어떻게 전달할 수 있을까 ?
+    * Internationalization - i18n (영어로 국제화는 18개의 글자로 이루어져있기에 i18n으로 간략화해서 쓰기도 한다.)
+    * 보통 HTTP Request Header를 사용, Accept-Language 라는 헤더를 전송한다.
+    * e.g. en - English
+
+* `src/main/resources` 해당 경로에 `messages.properties` 파일 생성
+* `application.properties` 와 같은 폴더 루트
+~~~
+good.morning.message=Good Morning
+~~~
+
+* `HelloWorldController`
+~~~java
+@RestController
+public class HelloWorldController {
+    private MessageSource messageSource;
+
+    public HelloWorldController(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+    // ... 생략
+    @GetMapping(path = "/hello-world-internationalized")
+    public String helloWorldInternationalized() {
+
+        Locale locale = LocaleContextHolder.getLocale();
+        return messageSource.getMessage("good.morning.message", null, "Default Message", locale);
+    }
+}
+~~~
+* `LocaleContextHolder.getLocale()` : `Accept-Language` 헤더 값을 인지, 값이 존재하지 않을 시, 로컬 시스템 기본 값으로 지정된다
