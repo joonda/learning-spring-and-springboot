@@ -53,6 +53,7 @@ public class HelloWorldController {
 ~~~
 * GET 요청으로 불러오며, path는 원하는 url 엔드포인트로 지정 (여기서는 `/hello-world`로 지정.)
 * String인 Hello World를 리턴함
+
 ![hello-world-rest-api](./img/hello-world-rest-api.png)
 
 `HelloWorldController`
@@ -243,7 +244,7 @@ public class UserResource {
 
     private UserDaoService userDaoService;
 
-    // @Autowired 생략략
+    // @Autowired 생략
     public UserResource(UserDaoService userDaoService) {
         this.userDaoService = userDaoService;
     }
@@ -430,11 +431,11 @@ public class ErrorDetails {
 #### `ResponseEntityExceptionHandler`
 ~~~
 {
-"timestamp": "2024-06-30T10:39:01.153+00:00",
-"status": 404,
-"error": "Not Found",
-"message": "id:4",
-"path": "/users/4"
+    "timestamp": "2024-06-30T10:39:01.153+00:00",
+    "status": 404,
+    "error": "Not Found",
+    "message": "id:4",
+    "path": "/users/4"
 }
 ~~~
 * 예외 발생 시, 기본적인 Handler 양식
@@ -481,7 +482,7 @@ public class UserDaoService {
 }
 ~~~
 
-#### `User 삭제 API 추가`
+#### User 삭제 API 추가
 ~~~java
 @RestController
 public class UserResource {
@@ -572,3 +573,26 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 * Dynamic Filtering
 * Monitoring
 * ...
+
+## 16. Open API 사양 및 Swagger 파악하기
+#### REST API
+* REST API 사용자들은 REST API에 대해 잘 이해하고 있어야 한다.
+    * Resources
+    * Actions
+    * Request / Response Structure (Constraints/Validations)
+* 문제
+    * 정확성 : 어떤 문서가 최신이고, 정확한지 알 수 있을까 ?
+    * 일관성 : 모든 API의 문서가 일관된 형식으로 이루어져 있는지 확신할 수 있을까 ?
+* 옵션
+    * 1. 문서를 수동으로 관리하는 것
+        * 문서를 수동으로 관리하는 경우, 코드와 동기화하는지 확인하기 위해 노력해야함.
+    * 2. 코드에서 문서를 생성하는 방법 
+
+#### Swagger Quick Overview
+* 2011. Swagger Specification, Swagger Tools가 도입
+* 2016. Open API Specification 만들어짐 (based on Swagger Specification)
+    * Swagger Tools는 아직 존재한다. (e.g. Swagger UI)
+* Open API Spcification: REST API를 정의하기 위한, 특정 언어에 국한되지 않는 표준 인터페이스
+* Swagger UI : REST API를 좀 더 시각적으로 보기 쉽도록 제공하는 툴
+
+## 17. Swagger 문서의 자동 생성 구성하기
