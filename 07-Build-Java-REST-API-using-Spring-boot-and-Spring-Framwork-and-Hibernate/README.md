@@ -673,3 +673,174 @@ public class HelloWorldController {
 }
 ~~~
 * `LocaleContextHolder.getLocale()` : `Accept-Language` 헤더 값을 인지, 값이 존재하지 않을 시, 로컬 시스템 기본 값으로 지정된다
+![i18n-english](./img/i18n-english.png)
+
+## 20. REST API 버전 관리 - URI 버전 관리
+* 응답의 구조를 임의로 변경한다면, 모든 소비자에게 영향을 주게 된다.
+* Versioning REST API (API에 대한 버전 관리 구현 )
+    * URL (v1/person or v2/person)
+    * Request Parameter (version=v1 or v2)
+    * Header
+    * Media Type
+
+#### URL 버전 관리
+
+`VersioningPersonController`
+~~~java
+@RestController
+public class VersioningPersonController {
+
+    @GetMapping("/v1/person")
+    public PersonV1 getFirstVersionOfPerson() {
+        return new PersonV1("Bob Charlie");
+    }
+
+    @GetMapping("/v2/person")
+    public PersonV2 getSecondVersionOfPerson() {
+        return new PersonV2(new Name("Bob", "Charlie"));
+    }
+}
+~~~
+
+`PersonV1`, `PersonV2` 클래스
+~~~java
+public class PersonV1 {
+    private String name;
+    public PersonV1(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+        return "PersonV1{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+~~~
+
+`Name` 클래스
+~~~java
+public class Name {
+    private String firstName;
+    private String lastName;
+
+    public Name(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Name{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+}
+~~~
+
+* V1, V2 클래스는 같지만 V2 같은 경우, Name 클래스를 이용하여 성과 이름을 분리해서 표현
+
+
+* `/v1/person` 엔드포인트
+~~~json
+{
+    "name": "Bob Charlie"
+}
+~~~
+
+* `/v2/person` 엔드포인트
+~~~json
+{
+    "name": {
+        "firstName": "Bob",
+        "lastName": "Charlie"
+    }
+}
+~~~
+
+## 21. REST API 버전 관리 - 요청 매개변수, 헤더, 콘텐츠 협상
+
+#### 요청 매개변수 (Request Parameter)
+
+`VersioningPersonController`
+~~~java
+@RestController
+public class VersioningPersonController {
+
+    @GetMapping(path = "/person", params = "version=1")
+    public PersonV1 getFirstVersionOfPersonRequestParameter() {
+        return new PersonV1("Bob Charlie");
+    }
+
+    @GetMapping(path = "/person", params = "version=2")
+    public PersonV2 getSecondVersionOfPersonRequestParameter() {
+        return new PersonV2(new Name("Bob", "Charlie"));
+    }
+}
+~~~
+* 같은 엔드포인트이지만, 파라미터로 버전관리를 한다
+    * http://localhost:8080/person?version=1
+    * http://localhost:8080/person?version=2
+
+#### 커스텀 헤더 (Custom Header)
+
+`VersioningPersonController`
+~~~java
+@RestController
+public class VersioningPersonController {
+
+    @GetMapping(path = "/person/header", headers = "X-API-VERSION=1")
+    public PersonV1 getFirstVersionOfPersonRequestHeader() {
+        return new PersonV1("Bob Charlie");
+    }
+
+    @GetMapping(path = "/person/header", headers = "X-API-VERSION=2")
+    public PersonV2 getSecondVersionOfPersonRequestHeader() {
+        return new PersonV2(new Name("Bob", "Charlie"));
+    }
+}
+~~~
+* Talend API Tester로 확인
+    * Headers 옵션에 X-API-VERSION : (원하는 버전 숫자)를 입력
+
+#### 미디어 타입 
+`VersioningPersonController`
+~~~java
+@RestController
+public class VersioningPersonController {
+
+    @GetMapping(path = "/person/accept", produces = "application/vnd.company.app-v1+json")
+    public PersonV1 getFirstVersionOfPersonAcceptHeader() {
+        return new PersonV1("Bob Charlie");
+
+    }
+
+    @GetMapping(path = "/person/accept", produces = "application/vnd.company.app-v2+json")
+    public PersonV2 getSecondVersionOfPersonAcceptHeader() {
+        return new PersonV2(new Name("Bob", "Charlie"));
+    }
+}
+~~~
