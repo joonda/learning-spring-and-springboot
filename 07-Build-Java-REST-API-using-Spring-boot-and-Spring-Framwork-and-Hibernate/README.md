@@ -683,7 +683,7 @@ public class HelloWorldController {
     * Header
     * Media Type
 
-#### URL 버전 관리
+#### URL 버전 관리 (twitter)
 
 `VersioningPersonController`
 ~~~java
@@ -783,7 +783,7 @@ public class Name {
 
 ## 21. REST API 버전 관리 - 요청 매개변수, 헤더, 콘텐츠 협상
 
-#### 요청 매개변수 (Request Parameter)
+#### 요청 매개변수 (Request Parameter) (Amazon)
 
 `VersioningPersonController`
 ~~~java
@@ -805,7 +805,7 @@ public class VersioningPersonController {
     * http://localhost:8080/person?version=1
     * http://localhost:8080/person?version=2
 
-#### 커스텀 헤더 (Custom Header)
+#### 커스텀 헤더 (Custom Header) (Microsoft)
 
 `VersioningPersonController`
 ~~~java
@@ -826,7 +826,7 @@ public class VersioningPersonController {
 * Talend API Tester로 확인
     * Headers 옵션에 X-API-VERSION : (원하는 버전 숫자)를 입력
 
-#### 미디어 타입 
+#### 미디어 타입 (Github)
 `VersioningPersonController`
 ~~~java
 @RestController
@@ -844,3 +844,150 @@ public class VersioningPersonController {
     }
 }
 ~~~
+
+#### 추천하는 방식?
+* 고려해야할 요인
+    * URI 및 요청 매개변수 버전 관리 방법의 경우, URI Pollution이 많이 발생한다.
+        * 그에 반해 헤더 버전 관리와 미디어 유형 버전 관리에서는 동일한 URL 사용
+    * HTTP 헤더의 오용
+        * HTTP 헤더는 버전관리 용도로 사용해서는 안된다.
+        * 즉, 헤더와 미디어 유형 버전 관리는 헤더를 오용하고 있는 것!
+    * 캐싱
+        * 일반적으로 URL을 기반으로 수행, 헤더 및 미디어 버전 관리의 경우 동일한 URL 공유
+            * 헤더 및 미디어 버전 관리일 경우, URL 기반으로 캐싱을 할 수 없기 때문에 캐싱 수행 전 헤더를 살펴봐야 한다.
+    * 브라우저에서 요청을 실행할 수 있는지?
+        * URI 및 요청 매개변수 버전 관리는 브라우저에서 간편하게 실행할 수 있다.
+        * 헤더 및 미디어 버전 관리에서는 차이가 헤더에 있다.
+    * API 문서
+        * URI 및 요청 매개변수 버전 관리는 URL이 다르기 때문에 문서화하기 편하다.
+        * API 문서 생성 툴은 보통 헤더를 기준으로 구분하는 문서의 생성을 지원하지 않을 수 있음.
+* 버전 관리가 필요하기 전에도 버전 관리에 대해서 고려해보는 것이 좋다.
+    * REST API를 구축하기 시작할 때 버전 관리에 대해 생각해야 한다.
+    * 일관된 버전 관리 방식을 사용해야 한다.
+
+## 22. REST API HATEOAS 구현하기
+#### HATEOAS
+* 애플리케이션의 상태를 나타내는 엔진 
+* 우리는 웹사이트를 방문할 때 데이터를 확인하고 작업을 수행한다.
+* REST API를 향상시켜 사용자에게 후속 작업을 수행하는 방법을 알려주는 것?
+* 구현 옵션
+    * 1. 사용자 정의 형식을 설계, 사용자 정의 구현을 생성하는 것.
+        * 유지하기 까다로움
+    * 2. 표준 구현
+        * HAL
+        * Spring HATEOAS
+
+#### Spring HATEOAS 사용하기
+~~~xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-hateoas</artifactId>
+</dependency>
+~~~
+
+~~~java
+@RestController
+public class UserResource {
+    // ... 생략
+    @GetMapping("/users")
+    public List<User> retrieveAllUsers() {
+        return userDaoService.findAll();
+    }
+
+    @GetMapping("/users/{id}")
+    public EntityModel<User> retrieveUser(@PathVariable int id) {
+        User user = userDaoService.findOne(id);
+
+        if (user == null)
+            throw new UserNotFoundException("id:" + id);
+
+        EntityModel<User> entityModel = EntityModel.of(user);
+
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        entityModel.add(link.withRel("all-users"));
+
+        return entityModel;
+    }
+}
+~~~
+* `EntityModel`: Spring HATEOAS에서 제공하는 클래스, 데이터와 링크 정보를 함께 감싸는 역할
+    * 단순히 User 객체만 반환하는 게 아니라, 이 데이터와 관련된 추가 정보를(링크) 포함할 수 있도록 해준다.
+* `linkTo()`: 특정 컨트롤러 메서드에 대한 링크를 생성
+    * `methodOn(this.getClass()).retrieveAllUsers()`: 현재 클래스의 retrieveAllUsers() 메서드를 호출하는 링크를 지정
+* `entityModel.add()`: 링크를 추가하는 작업
+    * `withRel("all-users")`: "all-users"라는 이름을 명시.
+
+![spring-hateoas-add-link](./img/spring-hateoas-add-link.png)
+
+## 23. REST API 정적 필터링 구성하기
+#### REST API 응답의 커스터마이징
+* Serialization: 객체를 스트림으로 전환하는 프로세스
+    * 가장 많이 쓰이는 자바의 Json 직렬화 프레임워크는 Jackson이다.
+* Jackson 프레임워크가 반환하는 REST API 응답을 커스터마이징하는 방법.
+
+#### 응답의 필드 이름 커스터마이징
+* `JSONProperty`
+
+`User`
+~~~java
+public class User {
+    private Integer id;
+
+    @Size(min=2, message = "이름은 2글자 이상이어야 합니다.")
+    @JsonProperty("user_name")
+    private String name;
+
+    @Past(message = "생일은 과거 시점이어야 합니다.")
+    @JsonProperty("birth_date")
+    private LocalDate birthDate;
+}
+~~~
+* `JsonProperty`를 원하는 필드 위에 어노테이션, 원하는 이름을 지정하면 이름이 변경된다.
+
+#### 선택된 필드만 반환하기
+* 필터링
+    * e.g. Bean에 정의된 비밀번호가 있는데, 응답에는 비밀번호를 전송하고 싶지 않는 경우
+        * 정적 필터링 (여러 REST API에서 Bean에 적용된 동일한 필터링)
+            * @JsonIgnoreProperties, @JsonIgnore
+        * 동적 필터링 (특정한 REST API에 전송할 때만 Bean에서 필터링)
+            * @JsonFilter with FilterProvider
+
+`FilteringController`
+~~~java
+@RestController
+public class FilteringController {
+
+    @GetMapping("/filtering")
+    public SomeBean filtering() {
+        return new SomeBean("value1", "value2", "value3");
+    }
+
+    @GetMapping("/filtering-list")
+    public List<SomeBean> filteringList() {
+        return Arrays.asList(new SomeBean("value1", "value2", "value3"),
+                new SomeBean("value4", "value5", "value6"));
+    }
+}
+~~~
+
+`SomeBean`
+~~~java
+// @JsonIgnoreProperties({"field1", "field2"})
+public class SomeBean {
+    private String field1;
+    @JsonIgnore
+    private String field2;
+    private String field3;
+
+    // 생성자, Getter(), Setter(), toString() 메서드
+}
+~~~
+
+* `@JsonIgnore`로 특정한 필드를 응답에서 제외할 수 있다.
+    * 정적 필터링이기 때문에 유연성이 떨어지는 단점이 존재
+* `@JsonIgnoreProperties`로 클래스 수준에서 특정 필드를 응답에서 제외할 수 있다.
+    * Property가 2개 이상이면, `{}`로 감쌀수 있다.
+* `@JsonIgnore`은 필드 수준에서 응답을 제외시키기 때문에, 필드 이름에 대한 제약이 없다
+    * `@JsonIgnoreProperties`는 필드 이름이 변경될 시, 이름을 바꿔줘야한다.
+
+## 24. REST API 동적 필터링 구현하기
