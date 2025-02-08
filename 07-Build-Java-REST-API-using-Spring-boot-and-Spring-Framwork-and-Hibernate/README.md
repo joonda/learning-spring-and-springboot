@@ -991,3 +991,224 @@ public class SomeBean {
     * `@JsonIgnoreProperties`는 필드 이름이 변경될 시, 이름을 바꿔줘야한다.
 
 ## 24. REST API 동적 필터링 구현하기
+`FilteringController`
+~~~java
+@RestController
+public class FilteringController {
+
+    @GetMapping("/filtering")
+    public MappingJacksonValue filtering() {
+        SomeBean someBean = new SomeBean("value1", "value2", "value3");
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(someBean);
+
+        PropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field1", "field3");
+        FilterProvider filters = new SimpleFilterProvider().addFilter("SomeBeanFilter", filter);
+        mappingJacksonValue.setFilters(filters);
+
+        return mappingJacksonValue;
+    }
+    
+    @GetMapping("/filtering-list")
+    public MappingJacksonValue filteringList() {
+
+        List<SomeBean> list = Arrays.asList(new SomeBean("value1", "value2", "value3"),
+                new SomeBean("value4", "value5", "value6"));
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(list);
+        PropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field2", "field3");
+        FilterProvider filters = new SimpleFilterProvider().addFilter("SomeBeanFilter", filter);
+        mappingJacksonValue.setFilters(filters);
+
+        return mappingJacksonValue;
+    }
+}
+~~~
+
+`SomeBean`
+~~~java
+@JsonFilter("SomeBeanFilter")
+public class SomeBean {
+    private String field1;
+    private String field2;
+    private String field3;
+    // 생성자, Getter(), Setter(), toString() 메서드
+}
+~~~
+* `MappingJacksonValue`: 객체에 필터 설정을 적용하기 위해 사용하는 래퍼 클래스
+* `SimpleBeanPropertyFilter.filterOutAllExcept()`: 표시할 필드 영역을 지정
+    * 예제에서는 `field1`, `field3`을 지정
+* `SimpleFilterProvider().addFilter();`: 지정된 이름으로 필터 등록
+    * 예제에서는 `SomeBeanFilter`
+* `mappingJacksonValue.setFilters(filters)`: 객체에 필터 설정
+* `@JsonFilter`: `FilteringController`에서 지정한 필터를 클래스 수준에서 지정.
+* 이렇게 지정하여 `filtering` 엔드포인트에서는 `field1`, `field3`만 보이고, `filtering-list` 엔드포인트에서는 `field2`, `field3`만 보인다.
+
+## 25. Spring Boot Actuator로 API 모니터링하기
+#### Spring Boot Actuator
+* 운영 환경에서 애플리케이션을 모니터링하고 관리하게 해준다.
+* 몇 가지의 엔드포인트를 제공한다.
+    * beans - Bean 목록
+    * health - 애플리케이션의 상태
+    * metrics - 애플리케이션 관련 메트릭
+    * mapping - RequestMapping 세부정보
+
+`pom.xml`
+~~~xml
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+~~~
+
+`application.properties`
+~~~
+management.endpoints.web.exposure.include=*
+~~~
+* `application.properties` 에서 해당 옵션을 지정하지 않을시, self, health-path, health 3가지 옵션만 나온다.
+
+## 26. Spring Boot HAL Explorer로 API 탐색하기
+* 1: HAL (JSON Hypertext Application Language)
+    * 일관되고 쉽게 API 리소스 간 하이퍼링크를 제공하는 간단한 포맷
+* 2: API가 HAL을 사용한다면, HAL Explorer를 써서 탐색할 수 있다.
+* 3: Spring Boot HAL Explorer
+
+#### HAL Explorer
+* `pom.xml` 의존성 추가
+~~~xml
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-rest-hal-explorer</artifactId>
+</dependency>
+~~~
+
+![hal-explorer](./img/hal-explorer.png)
+
+## 27. JPA와 Hibernate를 이용해 REST API를 H2에 연결하기 - 개요
+* H2 인메모리 데이터베이스 -> MySQL 데이터베이스로 바꿀 예정
+
+## 28. User 엔터티 및 테스트 데이터 생성하기
+`User`
+~~~java
+@Entity(name="user_details")
+public class User {
+
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Size(min=2, message = "이름은 2글자 이상이어야 합니다.")
+    @JsonProperty("user_name")
+    private String name;
+
+    @Past(message = "생일은 과거 시점이어야 합니다.")
+    @JsonProperty("birth_date")
+    private LocalDate birthDate;
+}
+~~~
+* `@Entity`, `@Id` `@GeneratedValue` 활용
+    * `@GeneratedValue` 같은 경우, JPA에서 엔터티의 기본 키 값을 자동으로 매겨준다.
+* `@Entity(name="user_details")` 같은 경우는, H2 console에서 user라는 테이블과 중복 가능성이 존재하기 때문에 이름을 따로 지정해주었다.
+
+`data.sql`
+~~~sql
+insert into user_details(id, birth_date, name)
+values(10001, current_date(), 'Hyun');
+
+insert into user_details(id, birth_date, name)
+values(10002, current_date(), 'Lee');
+
+insert into user_details(id, birth_date, name)
+values(10003, current_date(), 'Park');
+~~~
+* 데이터를 하드코딩해서 넣기
+
+## 29. REST API를 개선하고 JPA와 Hibernate를 이용해 H2에 연결하기
+* 현재 `UserResource`가 데이터베이스와 소통하게 하려면, `UserRepository`를 거치게끔 해야한다.
+
+`UserRepository`
+```java
+package com.Hyun.rest.webservices.restful_web_services.jpa;
+
+import com.Hyun.rest.webservices.restful_web_services.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+}
+```
+
+`User`
+```java
+@Entity(name="user_details")
+public class User {
+
+    protected User() {
+
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Size(min=2, message = "이름은 2글자 이상이어야 합니다.")
+    @JsonProperty("user_name")
+    private String name;
+
+    @Past(message = "생일은 과거 시점이어야 합니다.")
+    @JsonProperty("birth_date")
+    private LocalDate birthDate;
+    // ... 생략
+}
+```
+* 기존에 User 클래스에 기본 생성자를 추가함함
+
+`UserJpaResource`
+
+```java
+@RestController
+public class UserJpaResource {
+
+    private UserRepository userRepository;
+
+    public UserJpaResource(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping("/jpa/users")
+    public List<User> retrieveAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/jpa/users/{id}")
+    public EntityModel<User> retrieveUser(@PathVariable int id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty())
+            throw new UserNotFoundException("id:" + id);
+
+        EntityModel<User> entityModel = EntityModel.of(user.get());
+
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        entityModel.add(link.withRel("all-users"));
+
+        return entityModel;
+    }
+    
+    @PostMapping("/jpa/users")
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+        User savedUser = userRepository.save(user);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedUser.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/jpa/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        userRepository.deleteById(id);
+    }}
+```
+* 앞서 만들었던 UserRepository에 기본 생성자를 넣어준다.
