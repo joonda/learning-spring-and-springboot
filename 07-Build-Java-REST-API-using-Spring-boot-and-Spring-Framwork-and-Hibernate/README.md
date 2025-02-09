@@ -1212,3 +1212,267 @@ public class UserJpaResource {
     }}
 ```
 * 앞서 만들었던 UserRepository에 기본 생성자를 넣어준다.
+
+## 30. User 엔터티와 일대다 관계로 Post 엔터티 생성하기
+
+`Post`
+```java
+@Entity
+public class Post {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+    // Getter(), Setter(), toString() 
+}
+```
+* `@ManyToOne`
+    * Post 클래스 내에서는 `@ManyToOne`으로 지정 
+    * fetch 옵션은 지연 또는 즉시 ㄹ딩을 설정
+        * 동일한 쿼리에서 게시물과 사용자의 세부 정보를 같이 검색할 필요는 없다
+        * 필요시에만 검색할 수 있도록 LAZY를 설정 (기본 값은 Eager)
+        * 이를 통해 최적화를 할 수 있다.
+    * 다대일 관계에서 `Post`가 `User`를 참조하기 위해 외래키로서 필요하기 때문에 jpa가 user_id 컬럼을 외래키로 자동으로 생성하고 매핑해 관리한다.
+
+`User`
+```java
+
+@Entity(name="user_details")
+public class User {
+    // 기본 생성자 (Entity)
+    protected User() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Size(min=2, message = "이름은 2글자 이상이어야 합니다.")
+    // @JsonProperty("user_name")
+    private String name;
+
+    @Past(message = "생일은 과거 시점이어야 합니다.")
+    // @JsonProperty("birth_date")
+    private LocalDate birthDate;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore // User Bean에 대해 게시물을 JSON 응답에 포함시키지 않는다.
+    private List<Post> posts;
+
+    // ... 생략
+}
+```
+* `@OneToMany`
+    * User(1) : 하나의 `User`는 여러개의 `Post`를 가질 수 있다.
+    * Post(N) : 각 `Post`는 하나의 특정 `User`에 속함.
+    * `@Entity`로 묶여있는 User, Post 클래스에서 우선적으로 매핑을 시도한다
+        * Post 클래스 내에서 `private User user`로 연관관계를 나타내는 필드를 지정했기 때문!
+* `@JsonIgnore`
+    * 양방향 관계에서는 순환 참조 문제가 자주 발생
+        * `User` 객체는 `List<Post>`를 가지고 있음
+        * 각 `Post` 객체는 다시 `User` 객체를 참조
+        * 이걸 반복
+    * 순환 참조 문제를 방지하기 위해 `@JsonIgnore` 어노테이션 부여
+
+`data.sql`
+
+```sql
+insert into user_details(id, birth_date, name)
+values(10001, current_date(), 'Hyun');
+
+insert into user_details(id, birth_date, name)
+values(10002, current_date(), 'Lee');
+
+insert into user_details(id, birth_date, name)
+values(10003, current_date(), 'Park');
+
+insert into post(id, description, user_id)
+values(20001, 'I want to learn AWS', 10001);
+
+insert into post(id, description, user_id)
+values(20002, 'I want to learn DevOps', 10001);
+
+insert into post(id, description, user_id)
+values(20003, 'I want to learn SQLD certification', 10002);
+
+insert into post(id, description, user_id)
+values(20004, 'I want to learn Multicloud', 10002);
+```
+
+## 31. 사용자의 모든 게시물을 가져올 GET API 구현하기
+`UserJpaResource`
+```java
+@RestController
+public class UserJpaResource {
+    // ... 생략
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> retrievePostForUser(@PathVariable int id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty())
+            throw new UserNotFoundException("id:" +id);
+        return user.get().getPosts();
+    }
+}
+```
+
+## 32. 사용자에 대한 게시물을 생성할 POST API 구현하기
+`PostRepository`
+```java
+public interface PostRepository extends JpaRepository<Post, Integer> {
+}
+```
+
+`User`
+```java
+@Entity(name="user_details")
+public class User {
+    // ... 생략
+    private List<Post> posts;
+
+    // Setter(), Getter()
+}
+```
+
+`UserJpaResource`
+```java
+@RestController
+public class UserJpaResource {
+
+    private UserRepository userRepository;
+    private PostRepository postRepository;
+
+    public UserJpaResource(UserRepository userRepository, PostRepository postRepository) {
+        this.userRepository = userRepository;
+        this.postRepository = postRepository;
+    }
+
+    // ... 생략
+
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPostForUser(@PathVariable int id, @Valid @RequestBody Post post) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty())
+            throw new UserNotFoundException("id:" +id);
+
+        post.setUser(user.get());
+
+        Post savedPost = postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedPost.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+}
+```
+
+## 33. JPA와 Hibernate가 만든 REST API 쿼리 살펴보기
+
+`application.properties`
+```
+spring.jpa.show-sql=true
+```
+* 실행되고 있는 모든 SQL 쿼리를 로그에 출력하는 것
+
+## 34. REST API를 MySQL 데이터베이스에 연결하기 - 개요
+* 현재 인메모리 데이터베이스인 H2-console을 사용하고 있음
+* 이걸 `Docker` 컨테이너의 MySQL로 변경할 예정
+
+## 35. REST API를 MySQL 데이터베이스에 연결하기 - 구현
+`docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=social-media-user --env MYSQL_PASSWORD=dummypassword --env MYSQL_DATABASE=social-media-database --name mysql --publish 3306:3306 mysql:8-oracle`
+
+`docker run --detach` 
+`--env MYSQL_ROOT_PASSWORD=dummypassword`
+* 루트 관리자 비밀번호
+`--env MYSQL_USER=social-media-user`
+* 사용자 ID
+`--env MYSQL_PASSWORD=dummypassword`
+* 사용자 비밀번호
+`--env MYSQL_DATABASE=social-media-database`
+* 생성하려는 데이터베이스
+`--name mysql` 
+* 데이터베이스의 이름
+`--publish 3306:3306 
+* 사용하려는 포트번호
+`mysql:8-oracle`
+* MySQL 이미지의 버전 및 이름
+
+`application.properties`
+```
+# docker MySQL database 연걸
+spring.datasource.url = jdbc:mysql://localhost:3306/social-media-database
+spring.datasource.username = social-media-user
+spring.datasource.password = dummypassword
+
+# Spring Boot Auto-configuration이 모든 테이블을 생성해주도록 지정
+# 애플리케이션을 시작할 때 현재 있는 엔터티를 기반으로 데이터베이스 스키마가 업데이트
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
+```
+
+`pom.xml`
+```xml
+<dependency>
+    <groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>8.0.33</version>
+</dependency>
+```
+
+## 36. Spring Security로 기본 인증 구현하기
+`pom.xml`
+```xml
+<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+```console
+Using generated security password: 939bbb3a-6e6c-4242-8a33-3989f03338c6
+```
+
+* Talend API Tester를 통해서 요청을 보낼 시, `Add authorization`을 통해서 아이디와 기본 생성된 비밀번호를 추가한 후 요청을 보낼 수 있다.
+
+`application.properties`
+```
+spring.security.user.name = username
+spring.security.user.password = password
+```
+* 기본 생성되는 아이디와 비밀번호를 지정할 수 있다 
+
+## 37. Spring Security 기본 인증 설정 개선하기
+* GET을 제외한 POST 등의 요청은 인증 정보로 요청을 보내도 403(권한없음)에러가 발생한다
+#### Spring Security
+* 요청을 보낼 때마다 Spring Security가 해당 요청을 가로챈다.
+* 이후 일련의 필터를 실행 (필터 실행 과정을 필터 체인이라고 한다.)
+* 기존의 필터 체인을 오버라이드 하려면 체인 전체를 다시 정의해야 한다.
+
+#### Spring Security 기본 설정
+1. 모든 요청이 인증되어야 한다.
+2. 인증되지 않았다면 기본 값으로 웹페이지가 나타난다. (기본 로그인 폼)
+3. CSRF -> POST, PUT 요청에 영향
+
+#### Spring Configuration
+`SpringSecurityConfiguration`
+```java
+@Configuration
+public class SpringSecurityConfiguration {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(
+                auth -> auth.anyRequest().authenticated()
+        ); // 모든 요청이 인증이 필요함
+        httpSecurity.httpBasic(Customizer.withDefaults()); // 기본 로그인 팝업창이 뜬다
+        httpSecurity.csrf().disable(); // csrf 제어를 해제한다. 
+        return httpSecurity.build();
+    }
+}
+```
