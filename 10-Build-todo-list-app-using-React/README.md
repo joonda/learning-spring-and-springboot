@@ -202,4 +202,103 @@ function LoginComponent() {
 * `handleSubmit` 함수를 만든다 (특정 username, password에 true, false를 지정)
     * 이를 `button` 태그에 있는 `onClick`에 지정
 * 성공, 에러 메시지를 띄우는 함수를 만든다 `SuccessMessageConponent`, `ErrorMessageComponent`
-* 
+
+## 5. 로그인 컴포넌트에서 조건에 따른 메시지 표시 - Todo React 앱
+* 이전 단계에서 `SuccessMessageConponent`, `ErrorMessageComponent` 두개의 함수를 만들어서 진행했었으나, `JSX` 형식으로 바로 적용시킬 수 있다.
+
+`TodoApp.jsx`
+```javascript
+function LoginComponent() {
+
+    // ... 생략
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+
+    function handleSubmit() {
+        if(username==='Hyun' && password ==='dummy') {
+            setShowSuccessMessage(true)
+            setShowErrorMessage(false)
+        } else {
+            setShowSuccessMessage(false)
+            setShowErrorMessage(true)
+        }
+    }
+
+    return(
+        <div className="Login">
+            {/* showSuccessMessage, showErrorMessage 두개 각각 true일 때, 해당하는 jsx를 반환 */}
+            {showSuccessMessage && <div className='successMessage'>Authenticated Successfully</div>}
+            {showErrorMessage && <div className='errorMessage'>Authenticated Failed. Please check your credentials.</div>}
+            <div className="LoginForm">
+                {/* ... 생략 */}
+                <div>
+                    <button type="button" name="login" onClick={handleSubmit}>login</button>
+                </div>
+            </div>
+        </div>
+    )
+}
+```
+* 불필요한 함수를 없애고, `{}`를 활용, JSX를 단순 반환하도록 할 수 있다.
+
+## 6. React Router DOM으로 로그인 컴포넌트에 라우팅
+* 이전 단계에서는 로그인에 대한 기능을 거의 완성한 상태
+* 이제는 인증에 성공했을때 (로그인 정보가 맞을 때) `Welcome` 컴포넌트로 연결해주는 것이 필요하다. (라우팅)
+* 라우팅을 위해서는 React Router DOM을 추가해야한다.
+
+```terminal
+npm install react-router-dom
+```
+
+`TodoApp`
+```javascript
+import { useState } from 'react';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import './TodoApp.css';
+
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />}></Route>
+                    <Route path='login' element={<LoginComponent />}></Route>
+                    <Route path='welcome' element={<WelcomeComponent />}></Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    )
+}
+
+function LoginComponent() {
+    // ... 생략
+    const navigate = useNavigate();
+
+    function handleSubmit() {
+        if(username==='Hyun' && password ==='dummy') {
+            setShowSuccessMessage(true)
+            setShowErrorMessage(false)
+            navigate('/welcome')
+        } else {
+            setShowSuccessMessage(false)
+            setShowErrorMessage(true)
+        }
+    }
+    return(
+        // ... 생략
+    )
+}
+
+function WelcomeComponent() {
+    return (
+        <div className="Welcome">
+            Welcome Componenet
+        </div>
+    )
+}
+```
+* `react-router-dom`을 설치
+* `BrowserRouter`, `Routes`, `Route`를 이용하여 `path`와 `element`를 지정한다
+    * path는 url 주소, element는 반환할 컴포넌트를 의미한다.
+* `useNavigate` 메서드를 활용하여 함수를 불러오고, `navigate('/path')`를 지정
+    * 이를 통해 로그인이 성공하면, Welcome 페이지로 이동하게 된다.
