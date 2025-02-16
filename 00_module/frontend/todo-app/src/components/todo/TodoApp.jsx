@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import './TodoApp.css';
 
 export default function TodoApp() {
@@ -8,8 +8,9 @@ export default function TodoApp() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<LoginComponent />}></Route>
-                    <Route path='login' element={<LoginComponent />}></Route>
-                    <Route path='welcome' element={<WelcomeComponent />}></Route>
+                    <Route path='/login' element={<LoginComponent />}></Route>
+                    <Route path='/welcome/:username' element={<WelcomeComponent />}></Route>
+                    <Route path='*' element={<ErrorComponent />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
@@ -28,7 +29,7 @@ function LoginComponent() {
         if(username==='Hyun' && password ==='dummy') {
             setShowSuccessMessage(true)
             setShowErrorMessage(false)
-            navigate('/welcome')
+            navigate(`/welcome/${username}`)
         } else {
             setShowSuccessMessage(false)
             setShowErrorMessage(true)
@@ -36,6 +37,7 @@ function LoginComponent() {
     }
     return(
         <div className="Login">
+            <h1>Time to Login!</h1>
             {showSuccessMessage && <div className='successMessage'>Authenticated Successfully</div>}
             {showErrorMessage && <div className='errorMessage'>Authenticated Failed. Please check your credentials.</div>}
             <div className="LoginForm">
@@ -58,9 +60,22 @@ function LoginComponent() {
 }
 
 function WelcomeComponent() {
+    const param = useParams()
     return (
         <div className="Welcome">
-            Welcome Componenet
+            <h1>Welcome to {param.username}</h1>
+            <div>Welcome Component</div>
+        </div>
+    )
+}
+
+function ErrorComponent() {
+    return (
+        <div className="Error">
+            <h1>We are working really hard!</h1>
+            <div>
+                Apologies for the 404. Reach out to our team ar ABC-DEF-GHIJ.
+            </div>
         </div>
     )
 }

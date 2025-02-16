@@ -302,3 +302,106 @@ function WelcomeComponent() {
     * path는 url 주소, element는 반환할 컴포넌트를 의미한다.
 * `useNavigate` 메서드를 활용하여 함수를 불러오고, `navigate('/path')`를 지정
     * 이를 통해 로그인이 성공하면, Welcome 페이지로 이동하게 된다.
+
+## 7. React 앱에 에러 컴포넌트 추가하기
+
+#### 404에러 컴포넌트 추가하기.
+`TodoApp.jsx`
+```javascript
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />}></Route>
+                    <Route path='/login' element={<LoginComponent />}></Route>
+                    <Route path='/welcome' element={<WelcomeComponent />}></Route>
+                    <Route path='*' element={<ErrorComponent />}></Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    )
+}
+// ... 생략
+function ErrorComponent() {
+    return (
+        <div className="Error">
+            <h1>We are working really hard!</h1>
+            <div>
+                Apologies for the 404. Reach out to our team ar ABC-DEF-GHIJ.
+            </div>
+        </div>
+    )
+}
+```
+1. `ErrorComponent`를 만든다.
+2. `Route` 태그의 `path` 옵션에 `*`을 이용, 지정한 페이지 이외에는 404 에러 컴포넌트가 뜨도록 진행한다.
+
+## 8. 웰컴 컴포넌트에서 하드 코딩 삭제
+
+#### useParams
+* `LoginComponent`에서 URL 파라미터를 받아와 `WelcomeComponent`에서 사용하기
+* `useParams`를 활용한다
+
+#### 하드 코딩 삭제하기
+`TodoApp.jsx > LoginComponent`
+```javascript
+function LoginComponent() {
+
+    const [username, setUsername] = useState('Hyun')
+    const [password, setPassword] = useState('')
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const navigate = useNavigate();
+
+    function handleSubmit() {
+        if(username==='Hyun' && password ==='dummy') {
+            setShowSuccessMessage(true)
+            setShowErrorMessage(false)
+            navigate(`/welcome/${username}`)
+        } else {
+            setShowSuccessMessage(false)
+            setShowErrorMessage(true)
+        }
+    }
+    return(
+        // ... 생략
+    )
+}
+```
+* `LoginComponent` 에서 navigate를 사용하고 있다, 여기서 `${username}`을 사용해 받아올 파라미터를 입력한다
+    * `LoginComponent`의 `input`태그에 있는 username을 가져옴.
+
+`TodoApp.jsx > TodoApp`
+```javascript
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />}></Route>
+                    <Route path='/login' element={<LoginComponent />}></Route>
+                    <Route path='/welcome/:username' element={<WelcomeComponent />}></Route>
+                    <Route path='*' element={<ErrorComponent />}></Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    )
+}
+```
+* `Route` 태그에 `path`를 활용, 파라미터로 받아올 url 파라미터를 지정 (`:username`)
+
+`TodoApp.jsx > WelcomeComponent`
+```javascript
+function WelcomeComponent() {
+    const param = useParams()
+    return (
+        <div className="Welcome">
+            <h1>Welcome to {param.username}</h1>
+            <div>Welcome Component</div>
+        </div>
+    )
+}
+```
+* `useParams`를 변수에 지정, 해당 변수에 있는 username을 받아온다.
+* 이를 통해, 로그인시 사용했던 username을 url파라미터로 받아와 변수로 지정할 수 있다.
