@@ -405,3 +405,285 @@ function WelcomeComponent() {
 ```
 * `useParams`를 변수에 지정, 해당 변수에 있는 username을 받아온다.
 * 이를 통해, 로그인시 사용했던 username을 url파라미터로 받아와 변수로 지정할 수 있다.
+
+## 9. 할 일 목록 컴포넌트 React로 만들기
+
+`TodoApp.jsx > ListTodosComponent`
+```javascript
+function ListTodosComponent() {
+    const todos = [
+        {id:1, description: 'Learn AWS'},
+        {id:2, description: 'Learn Full Stack Dev'},
+        {id:3, description: 'Learn DevOps'},
+    ]
+    return (
+        <div className="ListTodosComponent">
+            <h1>Things You Want To do!</h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>id</td>
+                            <td>description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            todos.map(
+                                todo => (
+                                    <tr key={todo.id}>
+                                        <td>{todo.id}</td>
+                                        <td>{todo.description}</td>
+                                    </tr>
+                                )
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}
+```
+* `ListTodosComponent`를 만든다
+* `map` 함수를 활용, 하드 코딩된 `todos`의 데이터를 넣어서 보여준다.
+
+
+`TodoApp.jsx > TodoApp`
+```javascript
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />}></Route>
+                    <Route path='/login' element={<LoginComponent />}></Route>
+                    <Route path='/welcome/:username' element={<WelcomeComponent />}></Route>
+                    <Route path='/todos' element={<ListTodosComponent />} />
+                    <Route path='*' element={<ErrorComponent />}></Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    )
+}
+```
+* `Route`에 `ListTodosComponent`를 넣어준다. `path`옵션은 `/todos`로 지정
+
+## 10. 할 일 목록 컴포넌트에 상세 내용 보여주기
+* 할 일 목록 컴포넌트에 완료 상태와 상세 내용을 하드코딩해서 보여줄 것이다.
+
+#### `TodoApp.jsx > ListTodosComponent`
+```javascript
+function ListTodosComponent() {
+
+    const today = new Date();
+    const targetDate = new Date(today.getFullYear()+12, today.getMonth(), today.getDay())
+
+    const todos = [
+        {id:1, description: 'Learn AWS', done: false, targetDate:targetDate},
+        {id:2, description: 'Learn Full Stack Dev', done: false, targetDate:targetDate},
+        {id:3, description: 'Learn DevOps', done: false, targetDate:targetDate},
+    ]
+    return (
+        <div className="ListTodosComponent">
+            <h1>Things You Want To do!</h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>is Done?</th>
+                            <th>Target Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            todos.map((todo) => (
+                                    <tr key={todo.id}>
+                                        <td>{todo.id}</td>
+                                        <td>{todo.description}</td>
+                                        <td>{todo.done.toString()}</td>
+                                        <td>{todo.targetDate.toDateString()}</td>
+                                    </tr>
+                                )
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}
+```
+* `today` 변수를 Date, `targetDate` 변수를 연, 월, 일로 받아와서 미래시점으로 변경
+* `todos` 배열에 완료 여부, targetDate 추가
+* `map` 함수에 완료 여부를 `toString()` 메서드로 문자열로 반환
+* `targetDate`를 `toDateString()` 메서드로 반환
+
+#### `TodoApp.jsx > WelcomeComponent`
+```javascript
+import {Link} from 'react-router-dom';
+
+function WelcomeComponent() {
+    const param = useParams()
+    return (
+        <div className="Welcome">
+            <h1>Welcome to {param.username}</h1>
+            <div>
+                Manage Your todos - <Link to='/todos'>Go here</Link>
+            </div>
+        </div>
+    )
+}
+```
+* `a` 태그 대신, `Link` 태그 사용
+* `a` 태그는 전체 페이지가 새로고침됨 (서버에 새로운 요청)
+    * `href` 속성으로 경로를 지정
+* `Link` 태그는 새로고침 없이 페이지 이동, SPA 성능 최적화 (필요 부분만 업데이트)
+    * `to` 속성으로 경로를 지정
+
+## 11. 헤더, 바닥글, 로그아웃 컴포넌트 React로 만들기
+
+#### 헤더 및 푸터 컴포넌트 만들기
+`TodoApp.jsx > HeaderComponent, FooterComponent`
+```javascript
+function HeaderComponent() {
+    return (
+        <div className="header">
+            Header <hr/>
+        </div>
+    )
+}
+
+function FooterComponent() {
+    return (
+        <div className="footer">
+            <hr/> Footer
+        </div>
+    )
+}
+```
+* 간단하게 헤더 및 푸터 컴포넌트를 만든다.
+
+`TodoApp.jsx > TodoApp`
+```javascript
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <HeaderComponent />
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />} />
+                    <Route path='/login' element={<LoginComponent />} />
+                    <Route path='/welcome/:username' element={<WelcomeComponent />} />
+                    <Route path='/todos' element={<ListTodosComponent />} />
+                    <Route path='*' element={<ErrorComponent />} />
+                </Routes>
+            </BrowserRouter>
+            <FooterComponent />
+        </div>
+    )
+}
+```
+* 이를 `TodoApp`에 적용한다.
+
+#### 로그아웃 컴포넌트 만들기
+* 위 방법과 동일하다
+
+`TodoApp.jsx > LogoutComponent`
+```javascript
+function LogoutComponent() {
+    return (
+        <div className="LogoutComponent">
+            <h1>You are logged out!</h1>
+            <div>
+                Thank you for using our App. Come back soon!
+            </div>
+        </div>
+    )
+}
+```
+
+`TodoApp.jsx > TodoApp`
+```javascript
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <HeaderComponent />
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />} />
+                    <Route path='/login' element={<LoginComponent />} />
+                    <Route path='/welcome/:username' element={<WelcomeComponent />} />
+                    <Route path='/todos' element={<ListTodosComponent />} />
+                    <Route path='/logout' element={<LogoutComponent />} />
+                    <Route path='*' element={<ErrorComponent />} />
+                </Routes>
+            </BrowserRouter>
+            <FooterComponent />
+        </div>
+    )
+}
+```
+
+## 12. React 프론트엔드 애플리케이션에 Bootstrap 추가
+
+#### Bootstrap 사용하기
+```terminal
+npm install bootstrap
+```
+
+`index.js`에 import
+
+`index.js`
+```javascript
+import 'bootstrap/dist/css/bootstrap.min.css';
+```
+
+`TodoApp.jsx > ListTodosComponent`
+```javascript
+function ListTodosComponent() {
+    // ... 생략
+    return (
+        <div className="container">
+            <h1>Things You Want To do!</h1>
+            <div>
+                <table className='table'>
+                    {/* ... 생략 */}
+                </table>
+            </div>
+        </div>
+    )
+}
+```
+* container, table 등 다양한 Bootstrap 기능을 사용할 수 있다.
+
+## 13. Bootstrap을 사용하여 Todo React 프론트엔드 애플리케이션에 스타일 적용
+
+`TodoApp.jsx > HeaderComponent`
+```javascript
+function HeaderComponent() {
+    return (
+        <header className="border-bottom border-light border-5 mb-5 p-2">
+            <div className="container">
+                <div className="row">
+                    <nav className="navbar navbar-expand-lg">
+                        <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.in28minutes.com">in28minutes</a>
+                        <div className="collapse navbar-collapse">
+                            <ul className="navbar-nav">
+                                <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/in28minutes">Home</Link></li>
+                                <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+                            </ul>
+                        </div>
+                        <ul className="navbar-nav">
+                            <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>
+                            <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    )
+}
+```
