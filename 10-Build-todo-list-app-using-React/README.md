@@ -687,3 +687,414 @@ function HeaderComponent() {
     )
 }
 ```
+
+## 14. React 컴포넌트를 개별 JavaScript 모듈로 리팩토링
+
+#### 모듈화
+* 현재 `TodoApp.jsx` 파일에 컴포넌트가 다 있는 상태, 이를 모듈화 시켜줄 필요가 있다.
+
+* `ErrorComponent.jsx`
+* `FooterComponent.jsx`
+* `HeaderComponent.jsx`
+* `ListTodosComponent.jsx`
+* `LoginComponent.jsx`
+* `LogoutComponent.jsx`
+* `WelcomeComponent.jsx`
+
+## 15. 인증 컨텍스트로 React State를 여러 컴포넌트와 공유하기
+* 현재 하드코딩 된 username, password를 활용하여 로그인을 진행하고 있다.
+    * `LoginComponent.jsx`의 `handleSubmit()` 함수 참고
+* 페이지를 이동하면, 이전 페이지에 있던 State는 바로 사라진다.
+* 유저가 로그인 했다는 사실을 유지한 채로 헤더 컴포넌트에서 사용하고 싶음.
+    * 사용자가 로그인 했다면, 로그인한 상태를 유지
+    * 로그아웃 했다면 로그아웃 상태를 유지
+    * 인증 관련 로직을 별도의 컴포넌트로 관리하는 것이 중요!
+
+`security/AuthContext.js`
+```javascript
+import { createContext, useState } from "react";
+
+export const AuthContext = createContext()
+
+export default function AuthProvider({ children }) {
+
+    const [number, setNumber] = useState(10)
+
+    return (
+        <AuthContext.Provider value={ {number} }>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+```
+* `createContext`를 활용해서 context를 만든다
+* `Provider`를 활용하여, React State를 공유한다.
+
+`TodoApp.jsx`
+```javascript
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <AuthProvider>
+                <BrowserRouter>
+                    <HeaderComponent />
+                        <Routes>
+                            <Route path='/' element={<LoginComponent />} />
+                            <Route path='/login' element={<LoginComponent />} />
+                            <Route path='/welcome/:username' element={<WelcomeComponent />} />
+                            <Route path='/todos' element={<ListTodosComponent />} />
+                            <Route path='/logout' element={<LogoutComponent />} />
+                            <Route path='*' element={<ErrorComponent />} />
+                        </Routes>
+                    <FooterComponent />
+                </BrowserRouter>
+            </AuthProvider>
+        </div>
+    )
+}
+```
+* `AuthProvider`가 모든 컴포넌트를 다 감싸고 있다.
+
+`HeaderComponent`
+```javascript
+import { Link } from "react-router-dom"
+import { AuthContext } from "./security/AuthContext"
+import { useContext } from "react"
+
+export default function HeaderComponent() {
+
+    const authContext = useContext(AuthContext)
+    console.log(authContext.number)
+
+    return (
+        // ... 생략
+    )
+}
+```
+* `useContext`로 `AuthContext.js`에서 만든 Context를 사용
+* Context에 있는 State를 다른 컴포넌트에서도 공유할 수 있다.
+
+## 16. React State를 업데이트하고 인증 컨텍스트를 통해 확인
+* 이전 단계에서 `useContext`를 활용하여 다른 컴포넌트에서도 State를 활용할 수 있도록 했다
+* 하지만 좀 더 간단히 State 및 Context를 다른 컴포넌트로 전달할 수 있도록 수정해보자
+
+`AuthContext.js`
+```javascript
+import { createContext, useContext, useState } from "react";
+
+export const AuthContext = createContext()
+export const useAuth = () => useContext(AuthContext)
+
+export default function AuthProvider({ children }) {
+
+    const [number, setNumber] = useState(10)
+
+    return (
+        <AuthContext.Provider value={ {number} }>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+```
+* `createContext()`로 `AuthContext`를 만든다
+* 화살표 함수 문법과 `useContext(AuthContext)`로 커스텀 훅을 만든다.
+* Provider로 value를 지정, 10이라는 number 변수를 전달.
+
+`HeaderComponent`
+```javascript
+import { Link } from "react-router-dom"
+import { useAuth } from "./security/AuthContext"
+
+export default function HeaderComponent() {
+
+    const authContext = useAuth();
+    console.log(authContext.number);
+
+    return (
+        // ... 생략
+    )
+}
+```
+* 사용하려는 컴포넌트에서는 `useAuth`만 import하여 조금 더 간단하게 State를 공유할 수 있다.
+
+## 17. isAuthenticated를 React State에 설정 - 인증 컨텍스트
+* 로그인을 하면 사용자가 인증되었다는 Context를 설정
+
+`AuthContext.js`
+```javascript
+import { createContext, useContext, useState } from "react";
+
+export const AuthContext = createContext()
+export const useAuth = () => useContext(AuthContext)
+
+export default function AuthProvider({ children }) {
+
+    const [isAuthenticated, setAuthenticated] = useState(false)
+
+    return (
+        <AuthContext.Provider value={ {isAuthenticated, setAuthenticated} }>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+```
+* `boolean` 값으로 `isAuthenticated`, `setAuthenticated`를 지정 (`useState`)
+
+`LoginComponent`
+```javascript
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "./security/AuthContext"
+
+export default function LoginComponent() {
+
+    // ... 생략
+    const authContext = useAuth();
+
+    function handleSubmit() {
+        if(username==='Hyun' && password ==='dummy') {
+            authContext.setAuthenticated(true);
+            setShowSuccessMessage(true)
+            setShowErrorMessage(false)
+            navigate(`/welcome/${username}`)
+        } else {
+            authContext.setAuthenticated(false);
+            setShowSuccessMessage(false)
+            setShowErrorMessage(true)
+        }
+    }
+    return(
+        // ... 생략
+    )
+}
+```
+* `handleSubmit` 함수에 `authContext`를 활용해서 `setAuthenticated` 함수를 로그인 여부에 따라 `boolean` 값을 부여한다.
+* 이를 통해, 로그인에 성공하면 `Authenticated` 값은 `true`가 되고 실패하면 `false`값이 된다.
+
+`HeaderComponent`
+```javascript
+import { Link } from "react-router-dom"
+import { useAuth } from "./security/AuthContext"
+
+export default function HeaderComponent() {
+
+    const authContext = useAuth()
+    const isAuthenticated = authContext.isAuthenticated;
+    
+    return (
+        <header className="border-bottom border-light border-5 mb-5 p-2">
+            <div className="container">
+                <div className="row">
+                    <nav className="navbar navbar-expand-lg">
+                        <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.in28minutes.com">in28minutes</a>
+                        <div className="collapse navbar-collapse">
+                            <ul className="navbar-nav">
+                                <li className="nav-item fs-5">
+                                    {isAuthenticated 
+                                        && <Link className="nav-link" to="/welcome/Hyun">Home</Link>}
+                                </li>
+                                <li className="nav-item fs-5">
+                                    {isAuthenticated 
+                                        && <Link className="nav-link" to="/todos">Todos</Link>}
+                                </li>
+                            </ul>
+                        </div>
+                        <ul className="navbar-nav">
+                            <li className="nav-item fs-5">
+                                {!isAuthenticated 
+                                    && <Link className="nav-link" to="/login">Login</Link>}
+                            </li>
+                            <li className="nav-item fs-5">
+                                {isAuthenticated
+                                    && <Link className="nav-link" to="/logout" 
+                                    onClick={() => {authContext.setAuthenticated(false)}}>
+                                        Logout
+                                        </Link>}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    )
+}
+```
+* `isAuthenticated`를 활용, 선택에 따라 `navbar`의 여부를 설정할 수 있다.
+* `Logout` 버튼을 누르면 `onClick`함수를 활용, `setAuthenticated`를 `false` 값으로 지정한다.
+
+#### 문제
+* 로그아웃을 한 상태에서는 navbar에 `Todos` 메뉴는 보이지 않지만 url로 `/todos` 엔드포인트에 접근할 수 있게 된다
+    * 즉, 로그인 & 로그아웃이 의미가 없어진다.
+
+## 18. 인증 라우터로 React 라우터 보호하기 1
+* 현재 인증 로직이 `LoginComponent`, `HeaderComponent`에 분산되어있다.
+* 대부분의 인증 관련 로직을 AuthContext로 옮기는 작업을 진행.
+
+`AuthContext.js`
+```javascript
+import { createContext, useContext, useState } from "react";
+
+export const AuthContext = createContext()
+export const useAuth = () => useContext(AuthContext)
+
+export default function AuthProvider({ children }) {
+
+    const [isAuthenticated, setAuthenticated] = useState(false)
+
+    function login(username, password) {
+        if(username==='Hyun' && password ==='dummy') {
+            setAuthenticated(true);
+            return true
+        } else {
+            setAuthenticated(false);
+            return false
+        }
+    }
+
+    function logout() {
+        setAuthenticated(false);
+    }
+
+    return (
+        <AuthContext.Provider value={ {isAuthenticated, login, logout} }>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+```
+* `LoginComponent > handleSubmit()`의 로직을 가져와서 인증 로직을 가져온다
+* `setAuthenticated`는 `AuthContext`에서만 활용할 예정이기 때문에, `AuthContext.Provider`의 `value` 값에서 제외
+
+`LoginComponent`
+```javascript
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "./security/AuthContext"
+
+export default function LoginComponent() {
+
+    const [username, setUsername] = useState('Hyun')
+    const [password, setPassword] = useState('')
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const navigate = useNavigate();
+    const authContext = useAuth();
+
+    function handleSubmit() {
+        if(authContext.login(username, password)) {
+            navigate(`/welcome/${username}`)
+        } else {
+            setShowErrorMessage(true)
+        }
+    }
+    
+    return(
+        // ... 생략
+    )
+}
+```
+* `handleSubmit()` 함수를 경량화하여 메시지를 줄이고, `authContext.login()` 메서드를 활용하여 간단히 진행
+
+`HeaderComponent`
+```javascript
+import { Link } from "react-router-dom"
+import { useAuth } from "./security/AuthContext"
+
+export default function HeaderComponent() {
+
+    const authContext = useAuth()
+    const isAuthenticated = authContext.isAuthenticated;
+    const logout = authContext.logout;
+
+    return (
+        <header className="border-bottom border-light border-5 mb-5 p-2">
+            <div className="container">
+                <div className="row">
+                    <nav className="navbar navbar-expand-lg">
+                        <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.in28minutes.com">in28minutes</a>
+                        <div className="collapse navbar-collapse">
+                            <ul className="navbar-nav">
+                                <li className="nav-item fs-5">
+                                    {isAuthenticated 
+                                        && <Link className="nav-link" to="/welcome/Hyun">Home</Link>}
+                                </li>
+                                <li className="nav-item fs-5">
+                                    {isAuthenticated 
+                                        && <Link className="nav-link" to="/todos">Todos</Link>}
+                                </li>
+                            </ul>
+                        </div>
+                        <ul className="navbar-nav">
+                            <li className="nav-item fs-5">
+                                {!isAuthenticated 
+                                    && <Link className="nav-link" to="/login">Login</Link>}
+                            </li>
+                            <li className="nav-item fs-5">
+                                {isAuthenticated
+                                    && <Link className="nav-link" to="/logout" 
+                                    onClick={logout}>
+                                        Logout
+                                        </Link>}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    )
+}
+```
+* `logout` 변수에 `authContext.logout` 지정하여 로그아웃 부분에 `onclick`을 `logout` 함수로 대체한다.
+
+## 19. 인증 라우터로 React 라우터 보호하기 2
+* 이전 단계에서의 한계점인 로그아웃을해도 URL 엔드포인트로 `/todos` 접근 가능한 것을 수정
+* 인증 라우터를 만들어서 해결!
+
+`TodoApp.jsx`
+```javascript
+function AuthenticatedRoute({children}) {
+    const authContext = useAuth()
+
+    if(authContext.isAuthenticated) 
+        return children
+
+    return <Navigate to="/" />
+}
+
+export default function TodoApp() {
+    return(
+        <div className="TodoApp">
+            <AuthProvider>
+                <BrowserRouter>
+                    <HeaderComponent />
+                        <Routes>
+                            <Route path='/' element={<LoginComponent />} />
+                            <Route path='/login' element={<LoginComponent />} />
+
+                            <Route path='/welcome/:username' element={
+                                <AuthenticatedRoute>
+                                    <WelcomeComponent />
+                                </AuthenticatedRoute>
+                            } />
+                       
+                            <Route path='/todos' element={
+                                <AuthenticatedRoute>
+                                    <ListTodosComponent />
+                                </AuthenticatedRoute>
+                            } />
+                            <Route path='/logout' element={
+                                <AuthenticatedRoute>
+                                    <LogoutComponent />
+                                </AuthenticatedRoute>
+                            } />
+
+                            <Route path='*' element={<ErrorComponent />} />
+                        </Routes>
+                    <FooterComponent />
+                </BrowserRouter>
+            </AuthProvider>
+        </div>
+    )
+}
+```
+* 만약에 `isAuthenticated`가 `true`라면, 자식 컴포넌트를 보여주고 아니라면 `Navigate`를 활용하여 `/` (로그인 페이지)로 이동
+* `WelcomeComponent`, `ListTodosComponent`, `LogoutComponent`는 로그인 인증이 되어야 접근할 수 있도록 `AuthenticatedRoute` 컴포넌트로 감싼다.
