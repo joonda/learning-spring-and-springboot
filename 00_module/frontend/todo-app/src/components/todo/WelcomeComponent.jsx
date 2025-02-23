@@ -1,22 +1,18 @@
 import { useParams, Link } from "react-router-dom"
-import axios from "axios";
+
+import { useState } from "react";
+import { retrieveHelloWorldPathVariable } from "./api/HelloWorldApiService";
 
 export default function WelcomeComponent() {
 
-    function callHelloWorldRestApi() {
+    const [message, setMessage] = useState(null)
+
+    function callHelloWorldPathVariable() {
         console.log('called')
-        axios.get('http://localhost:8080/hello-world-bean')
-            .then((response) => successfulResponse(response))
-            .catch((error) => errorResponse(error))
+        retrieveHelloWorldPathVariable('Hyun')
+            .then((response) => setMessage(response.data.message))
+            .catch((error) => console.log(error))
             .finally(() => console.log('cleanup'))
-    }
-
-    function successfulResponse(response) {
-        console.log(response)
-    }
-
-    function errorResponse(error) {
-        console.log(error)
     }
 
     const param = useParams()
@@ -28,10 +24,13 @@ export default function WelcomeComponent() {
             </div>
             <div>
                 <button className="btn btn-success m-5"
-                    onClick={callHelloWorldRestApi}
+                    onClick={callHelloWorldPathVariable}
                 >
-                    Call Hello World REST API
+                    Call Hello World Bean Path Variable REST API
                 </button>
+            </div>
+            <div className="text-info">
+                {message}
             </div>
         </div>
     )
