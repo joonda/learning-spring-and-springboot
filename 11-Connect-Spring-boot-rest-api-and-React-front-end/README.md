@@ -504,3 +504,426 @@ export default function ListTodosComponent() {
 * 삭제 버든을 만들고, `onClick` 으로 `deleteTodo()`에 파라미터에 `todo.id`를 지정
 * 버튼을 클릭하면, id를 반환하는 것을 볼 수 있다.
 ![check-id-on-console](./img/check-id-on-console.png)
+
+## 11. username을 React 인증 컨텍스트에 설정하기
+#### 인증 컨텍스트
+* 로그인 시 username을 컨텍스트에 설정하여 이전에 하드코딩했던 부분을 대체한다
+`AuthContext.js`
+```javascript
+import { createContext, useContext, useState } from "react";
+
+export const AuthContext = createContext()
+export const useAuth = () => useContext(AuthContext)
+
+export default function AuthProvider({ children }) {
+
+    // ... 생략
+
+    const [username, setUsername] = useState(null)
+
+    function login(username, password) {
+        if(username==='Hyun' && password ==='dummy') {
+            setIsAuthenticated(true)
+            setUsername(username)
+            return true
+        } else {
+            setIsAuthenticated(false)
+            setUsername(null)
+            return false
+        }
+    }
+
+    // ... 생략
+
+    return (
+        <AuthContext.Provider value={ {isAuthenticated, login, logout, username} }>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+```
+* `useState` 함수를 활용하여 초기값을 null 초기화
+* `login` 함수의 `username === 'Hyun'` 부분을 이용하여 `setUsername` 진행
+* Provider의 value로 username을 내보낸다
+
+`ListTodoComponent.jsx`
+```javascript
+import { useEffect, useState } from "react";
+import { deleteTodoApi, retrieveAllTodosForUsernameApi } from "./api/TodoApiService";
+import { useAuth } from "./security/AuthContext";
+
+export default function ListTodosComponent() {
+
+    // const today = new Date();
+
+    const authContext = useAuth()
+    const username = authContext.username
+
+    // const targetDate = new Date(today.getFullYear()+12, today.getMonth(), today.getDay(zzz))
+    const [todos, setTodos] = useState([])
+    const [message, setMessage] = useState(null)
+
+    useEffect (() => refreshTodos(), {})
+
+    function refreshTodos() {
+        
+        retrieveAllTodosForUsernameApi(username)
+        .then(response => {
+            setTodos(response.data)
+        })
+        .catch(error => console.log(error))
+    }
+
+    function deleteTodo(id) {
+        deleteTodoApi(username, id)
+        .then(() => {
+                setMessage(`Delete of todo with ${id} successful`)
+                refreshTodos()
+            })
+        .catch(error => console.log(error))
+    }
+
+    return (
+        // ... 생략
+    )
+}
+```
+* 활용할 컴포넌트에 `useAuth`를 `import` 
+* `username`을 `authContext`의 메서드인 `username`으로 초기화
+* 기존에 'Hyun'으로 하드코딩했던 `retrieveAllTodosForUsernameApi()`, `deleteTodo()`의 파라미터에 `username`을 넣는다
+
+## 12. Todo 페이지를 표시하기 위한 Todo React 컴포넌트 만들기
+#### Todo 업데이트 기능 추가
+`TodoComponent.jsx` 
+```javascript
+export default function TodoComponent() {
+    return (
+        <div className="container">
+            <h1>Enter Todo Details</h1>
+            <div>
+
+            </div>
+        </div>
+    )
+}
+```
+* 수정 기능을 추가하기 위해 새로운 컴포넌트 추가
+
+`TodoApp.jsx`
+```javascript
+    <Route path='/todo/:id' element={
+        <AuthenticatedRoute>
+            <TodoComponent />
+        </AuthenticatedRoute>
+    } />
+```
+* `Route` 컴포넌트 추가
+* `/todo/:id`를 이용하여 id 파라미터를 받도록 지정
+
+`ListTodosComponent.jsx`
+```javascript
+import { useEffect, useState } from "react";
+import { deleteTodoApi, retrieveAllTodosForUsernameApi } from "./api/TodoApiService";
+import { useAuth } from "./security/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+export default function ListTodosComponent() {
+    // ... 생략
+    function updateTodo(id) {
+        console.log('clicked '+id)
+        navigate(`/todo/${id}`)
+    }
+
+    return (
+        <div className="container">
+            <h1>Things You Want To do!</h1>
+            {message && <div className="alert alert-warning">{message}</div>}
+            <div>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>is Done?</th>
+                            <th>Target Date</th>
+                            <th>Delete</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            todos.map((todo) => (
+                                    <tr key={todo.id}>
+                                        <td>{todo.description}</td>
+                                        <td>{todo.done.toString()}</td>
+                                        {/* <td>{todo.targetDate.toDateString()}</td> */}
+                                        <td>{todo.targetDate.toString()}</td>
+                                        <td><button 
+                                                className="btn btn-warning" 
+                                                onClick={() => deleteTodo(todo.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-success"
+                                                onClick={() => updateTodo(todo.id)}
+                                            >
+                                                Update
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}
+```
+* Update 버튼을 추가
+* `useNavigate` > `navigate()` 메서드를 활용하여 `$id`를 파라미터로 전달한다.
+* 이제 update 버튼을 누르면 해당 id의 파라미터를 받아서 todo의 수정 페이지로 이동할 수 있다.
+
+`TodoApiService.js`
+```javascript
+import axios from "axios";
+
+const apiClient = axios.create(
+    {
+        baseURL: 'http://localhost:8080'
+    }
+)
+// ... 생략
+export const retrieveTodoApi
+    = (username, id) => apiClient.get(`/users/${username}/todos/${id}`)
+```
+* 수정시 필요한 description 등을 가져오기 위해 Api를 새로 만든다
+* get 메서드 활용, 특정 id에 있는 데이터를 가져올 것이기 때문에 해당 주소를 활용한다.
+
+`TodoComponent.jsx`
+```javascript
+import { useParams } from "react-router-dom"
+import { retrieveTodoApi } from "./api/TodoApiService"
+import { useAuth } from "./security/AuthContext"
+import { useEffect, useState } from "react"
+
+export default function TodoComponent() {
+
+    const {id} = useParams() 
+    
+    const[description, setDescription] = useState('')
+
+    const authContext = useAuth()
+    
+    const username = authContext.username
+
+    useEffect(
+        () => retrieveTodos(),
+        [id]
+    )
+
+    function retrieveTodos() {
+        retrieveTodoApi(username, id)
+        .then(response => 
+            setDescription(response.data.description)
+        )
+        .catch(error => console.log(error))
+    }
+
+    return (
+        <div className="container">
+            <h1>Enter Todo Details</h1>
+            <div>
+                description: {description}
+            </div>
+        </div>
+    )
+}
+```
+* `useParams`를 통해 id 파라미터를 받는다.
+* `description`을 받아올 `useState()` 훅을 지정한다.
+* 이전에 진행했던 `authContext`를 활용하여 `username`을 받아온다.
+* `useEffect`메서드를 통해 `id` 값이 변경될 때마다 `retrieveTodos()` 함수를 호출하는 역할
+    * 즉, `id`가 바뀔 때마다 해당 `id`에 해달하는 정보를 서버에서 가져와서 화면에 업데이트하는 역할
+![update-todo-description](./img/update-todo-description.png)
+
+## 13. Todo React 컴포넌트를 표시하기 위해 Formik 및 Moment 라이브러리 추가하기
+#### Formik
+* React에서 `form`을 관리하는 라이브러리
+* submit 자동 매핑 등 `form`을 자유롭게 사용할 수 있다.
+```javascript
+import { useParams } from "react-router-dom"
+import { retrieveTodoApi } from "./api/TodoApiService"
+import { useAuth } from "./security/AuthContext"
+import { useEffect, useState } from "react"
+import { Field, Form, Formik } from "formik"
+
+export default function TodoComponent() {
+
+    const {id} = useParams() 
+    
+    const[description, setDescription] = useState('')
+    const[targetDate, setTargetDate] = useState('')
+
+    const authContext = useAuth()
+    
+    const username = authContext.username
+
+    useEffect(
+        () => retrieveTodos(),
+        [id]
+    )
+
+    function retrieveTodos() {
+        retrieveTodoApi(username, id)
+        .then(response => 
+            {setDescription(response.data.description)
+            setTargetDate(response.data.targetDate)}
+        )
+        .catch(error => console.log(error))
+    }
+
+    function onSubmit(values) {
+        console.log(values)
+    }
+
+    return (
+        <div className="container">
+            <h1>Enter Todo Details</h1>
+            <div>
+                <Formik initialValues={{description, targetDate}}
+                    enableReinitialize = {true}
+                    onSubmit={onSubmit}
+                >
+                    {
+                        (props) => (
+                            <Form>
+                                <fieldset className="form-group">
+                                    <label>Description</label>
+                                    <Field type="text" className="form-control" name="description" />
+                                </fieldset>
+                                <fieldset className="form-group">
+                                    <label>Target Date</label>
+                                    <Field type="date" className="form-control" name="targetDate" />
+                                </fieldset>
+                                <div>
+                                    <button className="btn btn-success m-5" type="submit">Save</button>
+                                </div>
+                            </Form>
+                        )
+                    }
+                </Formik>
+            </div>
+        </div>
+    )
+}
+```
+* `Formik` 라이브러리를 활용
+* `fieldset` 태그를 사용하여 Input을 단드는 것!
+* `initialValues`로 form의 초기값을 설정
+    * 해당 초기 값은 useState로 관리된다
+    * 기본적으로 `Formik`의 `initialValues`는 한 번만 설정되고 이후 업데이트가 되지 않는다.
+* `enableReinitialize={true}` 옵션을 통해 `description`, `targetDate`가 변경될 때 Formik 값도 초기화 된다.
+    * 즉 API에서 데이터를 가져와서 `setDescription()`, `setTargetDate()`를 호출하면 `Formik`의 값도 함께 변경된다.
+* `onSubmit = {onSubmit}`을 통해 사용자가 Form을 submit 하면, `onSubmit()` 함수가 호출된다
+    * 현재 코드에서는 `values`로 값을 받아서 입력된 값을 출력하는 역할을 한다.
+
+## 14. Formik을 이용하여 Todo React 컴포넌트에 검증 추가하기
+#### validate 옵션 활용하기
+`TodoComponent`
+```javascript
+// ... 생략
+    function retrieveTodos() {
+        retrieveTodoApi(username, id)
+        .then(response => 
+            {setDescription(response.data.description)
+            setTargetDate(response.data.targetDate)}
+        )
+        .catch(error => console.log(error))
+    }
+
+    function onSubmit(values) {
+        console.log(values)
+    }
+
+    function validate(values) {
+        let errors = {
+            description: 'Enter a valid description'
+        }
+        console.log(values)
+        return errors
+    }
+// ... 생략
+```
+* `validate`에서 `errors`를 return 한다면, `onSubmit()` 함수는 실행되지 않는다!
+    * 즉 에러 발생 시, `onSubmit()` 함수는 실행되지 않는다.
+
+```javascript
+// ... 생략
+    function validate(values) {
+        let errors = {}
+
+        if (values.description.length < 5) {
+            errors.description = 'Enter at least 5 characters'
+        }
+
+        if (!values.targetDate) {
+            errors.targetDate = 'Enter target date'
+        }
+
+
+        console.log(values)
+        return errors
+    }
+return (
+// ... 생략
+    <Formik initialValues={{description, targetDate}}
+        enableReinitialize = {true}
+        onSubmit={onSubmit}
+        validate={validate}
+        validateOnChange={false}
+        validateOnBlur={false}
+    >
+        {
+            (props) => (
+                <Form>
+                    <ErrorMessage 
+                        name = "description"
+                        component="div"
+                        className="alert alert-warning"
+                    />
+
+                    <ErrorMessage 
+                        name = "targetDate"
+                        component="div"
+                        className="alert alert-warning"
+                    />
+
+                    <fieldset className="form-group">
+                        <label>Description</label>
+                        <Field type="text" className="form-control" name="description" />
+                    </fieldset>
+                    <fieldset className="form-group">
+                        <label>Target Date</label>
+                        <Field type="date" className="form-control" name="targetDate" />
+                    </fieldset>
+                    <div>
+                        <button className="btn btn-success m-5" type="submit">Save</button>
+                    </div>
+                </Form>
+            )
+        }
+    </Formik>
+)
+// ... 생략
+```            
+* `Formik`의 `ErrorMessage` 컴포넌트를 활용하여 에러메시지를 띄울 수 있다.
+* `Formik`의 `validate` 옵션과 `validate()` 함수를 잘 확인하자
+* `validate()`함수의 `values` 값을 활용하여 `description`의 길이가 5 미만이거나, `targetDate`의 `values`가 `null`이거나, `''` 일때 에러 메시지를 표출하게 할 수 있다 (응용이 가능하다.)
+* `Formik`의 `validateOnChange`는 `Form`에 글자가 써질때마다 오류를 검증하는 것이다.
+    * 비효율적이기 때문에 `false`
+* `validateOnBlur`같은 경우는 입력 필드에 글자를 입력하다가 다른 곳을 클릭하면 검증을 시행 (포커스 아웃)
+    * 폼을 제출할 때 검증을 하기 위해 `false`
