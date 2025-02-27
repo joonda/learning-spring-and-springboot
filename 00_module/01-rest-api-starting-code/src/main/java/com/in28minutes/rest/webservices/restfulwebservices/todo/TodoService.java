@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TodoService {
-	
+
 	private static List<Todo> todos = new ArrayList<>();
-	
 	private static int todosCount = 0;
 	
 	static {
-
 		todos.add(new Todo(++todosCount, "Hyun","Get AWS Certified",
 							LocalDate.now().plusYears(10), false ));
 		todos.add(new Todo(++todosCount, "Hyun","Learn DevOps",
