@@ -927,3 +927,200 @@ return (
     * 비효율적이기 때문에 `false`
 * `validateOnBlur`같은 경우는 입력 필드에 글자를 입력하다가 다른 곳을 클릭하면 검증을 시행 (포커스 아웃)
     * 폼을 제출할 때 검증을 하기 위해 `false`
+
+## 15. Spring Boot 백엔드 API에 Todo 업데이트 및 생성 REST API 추가하기
+#### PutMapping 추가하기
+`TodoResource`
+```java
+@RestController
+public class TodoResource {
+
+    private TodoService todoService;
+
+    // 생성자 주입
+    public TodoResource(TodoService todoService) {
+        this.todoService = todoService;
+    }
+
+    // ... 생략
+    @PutMapping("/users/{username}/todos/{id}")
+    public ResponseEntity<Void> updateTodo(@PathVariable String username, @PathVariable int id, @RequestBody Todo todo) {
+        todoService.updateTodo(todo);
+        return todo;
+    }
+}
+```
+* `PutMapping` 사용
+* `username`, `id`, `Todo`를 받는다
+
+#### PostMapping 추가하기
+`TodoResource`
+```java
+@RestController
+public class TodoResource {
+
+    private TodoService todoService;
+
+    // 생성자 주입
+    public TodoResource(TodoService todoService) {
+        this.todoService = todoService;
+    }
+
+    // ... 생략
+    @PostMapping("/users/{username}/todos")
+    public Todo createTodo(@PathVariable String username, @RequestBody Todo todo) {
+        Todo createdTodo = todoService.addTodo(username, todo.getDescription(), todo.getTargetDate(), todo.isDone());
+        return createdTodo;
+    }
+}
+```
+* `PostMapping` 사용
+* Todo를 등록할 땐, id가 필요없기 때문에 삭제
+    * `@RequestBody`로 `Todo(todo)`를 받아온 후, todo의 getter 메서드를 활용하여 `createTodo`를 만든다.
+* `return`에 `createdTodo`로 지정
+
+## 16. React 프론트엔드에 업데이트 기능 추가하기
+#### API 추가
+`TodoApiService.js`
+```javascript
+import axios from "axios";
+
+const apiClient = axios.create(
+    {
+        baseURL: 'http://localhost:8080'
+    }
+)
+
+export const retrieveAllTodosForUsernameApi
+    = (username) => apiClient.get(`/users/${username}/todos`)
+
+export const deleteTodoApi
+    = (username, id) => apiClient.delete(`/users/${username}/todos/${id}`)
+
+export const retrieveTodoApi
+    = (username, id) => apiClient.get(`/users/${username}/todos/${id}`)
+
+export const updateTodoApi
+    = (username, id, todo) => apiClient.put(`/users/${username}/todos/${id}`, todo)
+```
+
+#### API 적용
+`TodoComponent.jsx`
+```javascript  
+    function onSubmit(values) {
+        const todo = {
+            id: id, 
+            username: username, 
+            description: values.description,
+            targetDate: values.targetDate,
+            done: false
+        }
+        updateTodoApi(username, id, todo)
+        .then(response => navigate('/todos')
+        )
+    }
+```
+* `onSubmit`의 `values` 값들을 활용
+* id, username, values의 description, value의 targetDate, done 등을 설정하여 저장
+* 업데이트가 적용되는 것을 볼 수 있다.
+![update-api-console-log](./img/update-api-console-log.png)
+![update-api-success](./img/update-api-success.png)
+
+## 17. React 프론트엔드에 새로운 Todo 생성 기능 추가하기
+#### 화면단에 생성 버튼 만들기
+
+`ListTodosComponent.jsx`
+```javascript
+            <button className="btn btn-success m-3" onClick={addNewTodo}>
+                Add New Todo
+            </button>
+```
+
+#### create API 만들기
+`TodoApiService.js`
+```javascript
+export const createTodoApi
+    = (username, todo) => apiClient.post(`/users/${username}/todos`, todo)
+```
+* id는 필요 없음, 삭제
+
+#### API 호출하기
+`TodoComponent.jsx`
+```javascript
+    function retrieveTodos() {
+        if (id != -1) {
+            retrieveTodoApi(username, id)
+            .then(response => 
+                {setDescription(response.data.description)
+                setTargetDate(response.data.targetDate)}
+            )
+            .catch(error => console.log(error))
+        }
+    }
+
+    function onSubmit(values) {
+        const todo = {
+            id: id, 
+            username: username, 
+            description: values.description,
+            targetDate: values.targetDate,
+            done: false
+        }
+        if (id == -1) {
+            createTodoApi(username, todo)
+            .then(response => navigate('/todos'))
+            .catch(error => console.log(error))
+        } else {
+            updateTodoApi(username, id, todo)
+            .then(response => navigate('/todos'))
+            .catch(error => console.log(error))
+        }
+    }
+```
+* id가 -1일때만 createTodoApi를 사용
+* id가 -1이 아닐때를 기본으로 지정
+
+## 18. Spring Security로 Spring Boot REST API 보호하기
+#### Spring Security 의존성 추가
+`pom.xml`
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+* 의존성 추가 후, `Talend API Tester`로 확인
+* 인증 헤더를 추가해야한다.
+
+`application.properties`
+```
+spring.security.user.name=Hyun
+spring.security.user.password=dummy
+```
+* 추가하면, 기본 admin id와 password가 달라진다.
+
+`BasicAuthenticationSecurityConfiguration.java`
+```java
+@Configuration
+public class BasicAuthenticationSecurityConfiguration {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return
+            http
+                .authorizeHttpRequests(
+                // 모든 HTTP 요청이 인증이 되어야만 가능함.
+                    auth -> auth.anyRequest().authenticated())
+                // HTTP 기본 인증
+                // 팝업 형태로 띄워줌
+                .httpBasic(Customizer.withDefaults())
+                // 상태가 없는 세션 만듦
+                .sessionManagement(
+                    session -> session.sessionCreationPolicy
+                            (SessionCreationPolicy.STATELESS))
+                // csrf를 해제
+                .csrf().disable()
+                .build();
+    }
+}
+```
